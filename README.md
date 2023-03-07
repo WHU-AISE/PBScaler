@@ -35,7 +35,7 @@ kubectl apply -f kubernetes-manifests.yaml
 ## Getting Started
 <B>Clone the Repo</B>
 ```
-git clone --depth=1 https://github.com/whuMicroservice/PBScaler.git
+git clone --depth=1 https://github.com/WHU-AISE/PBScaler.git
 ```
 
 <B>Install Dependencies</B>
