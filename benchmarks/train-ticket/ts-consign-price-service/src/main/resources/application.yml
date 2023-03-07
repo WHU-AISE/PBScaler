@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: ts-consign-price-service
+  data:
+    mongodb:
+      host: ts-consign-price-mongo
+      database: ts
+      port: 27017
+
+
+# HTTP Server
+server:
+  port: 16110
+
+swagger:
+  controllerPackage: consignprice.controller

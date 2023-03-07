@@ -1,0 +1,58 @@
+
+正则表达式
+{host\=(?<host>[^\,]*)\, clock\=(?<clock>{.*})\, event\=(?<event>[^\,]*)\, api\=(?<API>[^\,]*)\, }
+^=== (?<trace>.*) ===$
+
+服务级别：
+
+=== Success execution ===
+{host=rest-service-6, clock={"rest-service-6":1}, event=request r3, api=r6-API1, }
+{host=rest-service-3, clock={"rest-service-6":1,"rest-service-3":1}, event=request r2, api=r3-API1, }
+{host=rest-service-2, clock={"rest-service-6":1,"rest-service-3":1,"rest-service-2":1}, event=request r1, api=r2-API1, }
+{host=rest-service-1, clock={"rest-service-6":1,"rest-service-3":1,"rest-service-2":1,"rest-service-1":1}, event=hello world, api=r1-API1, }
+{host=rest-service-6, clock={"rest-service-6":2}, event=request r3 again, api=r6-API1, }
+{host=rest-service-3, clock={"rest-service-6":2,"rest-service-3":2}, event=request r2 again, api=r3-API1, }
+{host=rest-service-2, clock={"rest-service-6":2,"rest-service-3":2,"rest-service-2":2}, event=request r1 again, api=r2-API1, }
+{host=rest-service-1, clock={"rest-service-6":2,"rest-service-3":2,"rest-service-2":2,"rest-service-1":2}, event=request r-end, api=r1-API1, }
+{host=rest-service-end, clock={"rest-service-6":2,"rest-service-3":2,"rest-service-2":2,"rest-service-1":2,"rest-service-end":1}, event=Hi, api=r-end-API1, }
+
+=== Fail execution ===
+{host=rest-service-6, clock={"rest-service-6":1}, event=request r3, api=r6-API1, }
+{host=rest-service-3, clock={"rest-service-6":1,"rest-service-3":1}, event=request r2, api=r3-API1, }
+{host=rest-service-2, clock={"rest-service-6":1,"rest-service-3":1,"rest-service-2":1}, event=request r1, api=r2-API1, }
+{host=rest-service-1, clock={"rest-service-6":1,"rest-service-3":1,"rest-service-2":1,"rest-service-1":1}, event=error, api=r1-API1, }
+{host=rest-service-6, clock={"rest-service-6":2}, event=request r3 again, api=r6-API1, }
+{host=rest-service-3, clock={"rest-service-6":2,"rest-service-3":2}, event=request r2 again, api=r3-API1, }
+{host=rest-service-2, clock={"rest-service-6":2,"rest-service-3":2,"rest-service-2":2}, event=request r1 again, api=r2-API1, }
+{host=rest-service-1, clock={"rest-service-6":2,"rest-service-3":2,"rest-service-2":2,"rest-service-1":2}, event=request r-end, api=r1-API1, }
+{host=rest-service-end, clock={"rest-service-6":2,"rest-service-3":2,"rest-service-2":2,"rest-service-1":2,"rest-service-end":1}, event=error, api=r-end-API1, }
+
+
+
+
+state级别
+
+
+
+=== Success execution ===
+{host=rest-service-6, clock={"rest-service-6":1}, event=request r3, api=r6-API1, }
+{host=rest-service-3, clock={"rest-service-6":1,"rest-service-3":1}, event=request r2, api=r3-API1, }
+{host=rest-service-2:db_data_unsynchronized, clock={"rest-service-6":1,"rest-service-3":1,"rest-service-2:db_data_unsynchronized":1}, event=request r1, api=r2-API1, }
+{host=rest-service-1:db_data_synchronized, clock={"rest-service-6":1,"rest-service-3":1,"rest-service-2:db_data_unsynchronized":1,"rest-service-1:db_data_synchronized":1}, event=hello world, api=r1-API1, }
+{host=rest-service-6, clock={"rest-service-6":2}, event=request r3 again, api=r6-API1, }
+{host=rest-service-3, clock={"rest-service-6":2,"rest-service-3":2}, event=request r2 again, api=r3-API1, }
+{host=rest-service-2:db_data_synchronized, clock={"rest-service-6":2,"rest-service-3":2,"rest-service-2:db_data_synchronized":1}, event=request r1 again, api=r2-API1, }
+{host=rest-service-1:db_data_unsynchronized, clock={"rest-service-6":2,"rest-service-3":2,"rest-service-2:db_data_synchronized":1,"rest-service-1:db_data_unsynchronized":1}, event=request r-end, api=r1-API1, }
+{host=rest-service-end, clock={"rest-service-6":2,"rest-service-3":2,"rest-service-2:db_data_synchronized":1,"rest-service-1:db_data_unsynchronized":1,"rest-service-end":1}, event=Hi, api=r-end-API1, }
+
+=== Fail execution ===
+{host=rest-service-6, clock={"rest-service-6":1}, event=request r3, api=r6-API1, }
+{host=rest-service-3, clock={"rest-service-6":1,"rest-service-3":1}, event=request r2, api=r3-API1, }
+{host=rest-service-2:db_data_synchronized, clock={"rest-service-6":1,"rest-service-3":1,"rest-service-2:db_data_synchronized":1}, event=request r1, api=r2-API1, }
+{host=rest-service-1:db_data_unsynchronized, clock={"rest-service-6":1,"rest-service-3":1,"rest-service-2:db_data_synchronized":1,"rest-service-1:db_data_unsynchronized":1}, event=error, api=r1-API1, }
+{host=rest-service-6, clock={"rest-service-6":2}, event=request r3 again, api=r6-API1, }
+{host=rest-service-3, clock={"rest-service-6":2,"rest-service-3":2}, event=request r2 again, api=r3-API1, }
+{host=rest-service-2:db_data_unsynchronized, clock={"rest-service-6":2,"rest-service-3":2,"rest-service-2:db_data_unsynchronized":1}, event=request r1 again, api=r2-API1, }
+{host=rest-service-1:db_data_synchronized, clock={"rest-service-6":2,"rest-service-3":2,"rest-service-2:db_data_unsynchronized":1,"rest-service-1:db_data_synchronized":1}, event=request r-end, api=r1-API1, }
+{host=rest-service-end, clock={"rest-service-6":2,"rest-service-3":2,"rest-service-2:db_data_unsynchronized":1,"rest-service-1:db_data_synchronized":1,"rest-service-end":1}, event=error, api=r-end-API1, }
+

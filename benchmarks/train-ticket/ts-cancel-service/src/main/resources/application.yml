@@ -1,0 +1,9 @@
+server:
+  port: 18885  # HTTP (Tomcat) port
+
+spring:
+  application:
+    name: ts-cancel-service
+
+swagger:
+  controllerPackage: cancel.controller

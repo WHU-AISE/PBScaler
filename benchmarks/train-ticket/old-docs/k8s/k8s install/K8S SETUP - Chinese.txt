@@ -1,0 +1,136 @@
+﻿=========================在部署开始之前===============================
+1.给所有机器安装yum install ntp
+然后用ntpdate指令找一个时间服务器把所有服务器时间校准
+
+
+
+=========================这部分指令针对每一台机器====================
+
+1.首先给机器命名 给集群的机器命名以便区分 你准备使用的每台机器都要这样做，比如下面三台是我这个集群的三台机器
+
+vi /etc/hosts
+10.141.211.162 node-1-jc
+10.141.211.163 master-jc
+10.141.211.164 node-2-jc
+
+2.把文件夹里的两个docker安装文件挪到服务器上，然后cd进这个目录，执行下面两行安装docker 17.03
+
+yum install docker-ce-selinux-17.03.2.ce-1.el7.centos.noarch.rpm
+yum install docker-ce-17.03.2.ce-1.el7.centos.x86_64.rpm
+systemctl start docker.service
+
+
+===========docker安装命令补全================
+
+
+yum install -y bash-completion(如果未安装需要先安装bash-completion)
+source /usr/share/bash-completion/completions/docker
+source /usr/share/bash-completion/bash_completion
+
+3.安装好之后之下下面这几行命令
+
+cat << EOF > /etc/docker/daemon.json
+{
+  "exec-opts": ["native.cgroupdriver=systemd"]
+}
+EOF
+
+4.安装kubeadm。一股脑把下面这些指令全执行了就OK了
+
+cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOF
+setenforce 0
+yum install -y kubelet kubeadm kubectl
+systemctl enable kubelet && systemctl start kubelet
+
+cat <<EOF >  /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+sysctl --system
+
+
+=============================以下指令针对Master机器========================
+6.把这行代码加入到系统环境变量
+
+export KUBECONFIG=/etc/kubernetes/admin.conf
+
+7.执行这行指令
+
+sysctl net.bridge.bridge-nf-call-iptables=1
+
+8.关闭Swap
+
+sudo swapoff -a
+
+9.在Master上执行这行
+
+kubeadm init --pod-network-cidr=10.244.0.0/16
+
+每次重新init之前需要执行命令：kubeadm reset，清空之前的残留
+
+这行指令执行完毕之后控制台上应该会显示，类似下面这样，记得把这行指令复制保存下来
+kubeadm join 10.141.212.23:6443 --token qrxigf.bdqvtgdzyygj1qek --discovery-token-ca-cert-hash ......................
+
+10.然后安装一个网络插件
+
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.10.0/Documentation/kube-flannel.yml
+
+kube-flanner.yml这个文件也附带在外面了记得挪到服务器上
+
+
+
+=============================以下指令针对Node机器========================
+6.把这行代码加入到系统环境变量
+
+export KUBECONFIG=/etc/kubernetes/admin.conf
+
+7.执行这行指令
+
+sysctl net.bridge.bridge-nf-call-iptables=1
+
+8.关闭Swap
+
+sudo swapoff -a
+
+9.执行你刚才保存的指令
+
+kubeadm join 10.141.212.23:6443 --token qrxigf.bdqvtgdzyygj1qek --discovery-token-ca-cert-hash ......................
+
+每次重新init之前需要执行命令：kubeadm reset，清空之前的残留
+
+=============================以下指令针对master机器=========================
+kubectl get nodes 查看你集群的机器的状态
+kubectl get pods --all-namespaces 查看你集群中pod状态
+kuebctl get svc --all-namespaces 查看集群中的服务的状态
+
+
+
+
+=============================K8S安装命令补全===============================
+
+
+yum install -y bash-completion
+source /usr/share/bash-completion/bash_completion
+source <(kubectl completion bash)
+echo "source <(kubectl completion bash)" >> ~/.bashrc
+
+
+
+下面的暂时用不到不用管
+====================================================
+
+nohup sslocal -c /etc/shadowsocks.json /dev/null 2>&1 &
+privoxy --user privoxy /usr/local/etc/privoxy/config
+
+
+
+
+

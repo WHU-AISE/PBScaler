@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: ts-route-plan-service
+
+# HTTP Server
+server:
+  port: 14578 # HTTP (Tomcat) port
+
+
+swagger:
+  controllerPackage: plan.controller

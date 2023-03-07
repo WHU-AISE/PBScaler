@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Train Ticket System</title>
+        <meta name="description" content="测试订票系统，需跑通三个流程">
+        <meta name="author" content="Chenjie Xu">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css">
+        <script src="js/jquery-3.2.1.min.js"></script>
+        <script src="js/index.js"></script>
+        <script src="js/bootstrap.js"></script>
+        <script type="text/javascript" src="js/postData.js" defer charset="utf-8"></script>
+    </head>
+    <body>
+        <div class="container">
+            <nav class="navbar navbar-default" role="navigation">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#">微服务测试</a>
+                    </div>
+                    <div>
+                        <ul class="nav navbar-nav">
+                            <li class="active"><a href="#">单个微服务测试</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    流程1
+                                    <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">登录验证</a></li>
+                                    <li><a href="#">车次查询</a></li>
+                                    <li><a href="#">车票预订</a></li>
+                                    <li><a href="#">修改座位等级</a></li>
+                                    <li><a href="#">支付操作</a></li>
+                                    <li><a href="#">乘车</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    流程2
+                                    <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">登录验证</a></li>
+                                    <li><a href="#">车次查询</a></li>
+                                    <li><a href="#">车票预订</a></li>
+                                    <li><a href="#">支付操作</a></li>
+                                    <li><a href="#">改签</a></li>
+                                    <li><a href="#">支付操作</a></li>
+                                    <li><a href="#">乘车</a></li>
+
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    流程3
+                                    <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">登录验证</a></li>
+                                    <li><a href="#">车票订单查询</a></li>
+                                    <li><a href="#">取消</a></li>
+                                    <li><a href="#">退款</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <div id="status_set">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        注意：仅在下面为登录状态时才可进行部分敏感操作。请首先登录，获得以下两个值。
+                        <button id="logout_button" type="button" class="btn btn-primary">Logout</button>
+                    </li>
+                    <li class="list-group-item">Login User ID：<label id="user_login_id">Not Login</label></li>
+                    <li class="list-group-item">Login User Token：<label id="user_login_token">Please Login</label></li>
+                </ul>
+            </div>
+            <div class="workflow">
+                <!----------------------------------------Register------------------------>
+                <div class="step  panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Sign Up
+                        </h3>
+                    </div>
+                    <div class="group panel-body">
+                        <div class="input-box">
+                            <form role="form" class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Input Your Phone Num (Login By Phone Number): </label>
+                                    <div class="col-sm-10">
+                                        <input id="register_phoneNum" class="form-control"
+                                               name='phoneNum' value='352323'>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Set Your Password: </label>
+                                    <div class="col-sm-10">
+                                        <input id="register_password" class="form-control"
+                                               name='password' value='defaultPassword'>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Select Your Gender: </label>
+                                    <div class="col-sm-10">
+                                        <select id="register_gender" class="form-control" name="gender">
+                                            <option value="1">Male</option>
+                                            <option value="2">Female</option>
+                                            <option value="3">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Input Your Real Name: </label>
+                                    <div class="col-sm-10">
+                                        <input id="register_name" class="form-control"
+                                               name='name' value='test-remote-docker'>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Select Your Document Type: </label>
+                                    <div class="col-sm-10">
+                                        <select id="register_documentType" class="form-control" name="documentType">
+                                            <option value="1">ID Card</option>
+                                            <option value="2">Passport</option>
+                                            <option value="3">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Input your Document Num: </label>
+                                    <div class="col-sm-10">
+                                        <input id="register_documentNum" class="form-control"
+                                               name='documentNum' value='0123456789'>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Verification Code: </label>
+                                    <div class="col-sm-10">
+                                        <input id="register_verificationCode" type="text" id="verificationCodeRegister"
+                                               name="verificationCode">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <img id="captchaImgRegister" class="captcha_img" alt="Click To Refresh The Verification Code"
+                                             src="/api/v1/verifycode/generate">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button id="register_button" type="button" class="btn btn-primary">
+                                            Sign Up
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2">
+                                        <label class="control-label">Register Status:</label>
+                                        <span id="register_result_status"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2">
+                                        <label class="control-label">Register Message:</label>
+                                        <span id="register_result_msg"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2">
+                                        <label class="control-label">Account Info:</label>
+                                        <span id="register_result_account"></span>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!---------------------------------------Login ------------------------------------------- -->
+                <div class="step panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Sign In
+                        </h3>
+                    </div>
+                    <div class="group panel-body">
+                        <div class="input-box">
+                            <form role="form" class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">You Phone Number: </label>
+                                    <div class="col-sm-10">
+                                        <input id="login_phoneNum" class="form-control"
+                                               name='phoneNum' value='12315221870263'>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Your Password: </label>
+                                    <div class="col-sm-10">
+                                        <input id="login_password" class="form-control"
+                                               name='password' value='defaultPassword' >
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Verification Code</label>
+                                    <div class="col-sm-10">
+                                        <input id="login_verification_code" class="form-control" type="text"
+                                               id="verificationCodeLogin" name="verificationCode"/>
+                                    </div>
+                                </div >
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <img id="captchaImgLogin" class="captcha_img" alt="Click To Refresh The Verification Code"
+                                             src="/api/v1/verifycode/generate">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button id="login_button" type="button" class="btn btn-primary">Sign In</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2">
+                                        <label class="control-label">Login Status:</label>
+                                        <span id="login_result_status"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2">
+                                        <label class="control-label">Login Message:</label>
+                                        <span id="login_result_msg"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2">
+                                        <label class="control-label">Account Info:</label>
+                                        <span id="login_result_account"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2">
+                                        <label class="control-label">Account Login Token:</label>
+                                        <span id="login_result_token"></span>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+                <!------------------------------------------Contacts------------------------------------------------------ -->
+                <div class="step panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Add Contacts
+                        </h3>
+                    </div>
+                    <div class="group panel-body">
+                        <div class="input-box">
+                            <form role="form" class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">People Name:</label>
+                                    <div class="col-sm-10">
+                                        <input id="add_contacts_name" class="form-control" name='name' value=''>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Select Your Document Type: </label>
+                                    <div class="col-sm-10">
+                                        <select id="add_contacts_documentType" class="form-control" name="documentType">
+                                            <option value="1">ID Card</option>
+                                            <option value="2">Passport</option>
+                                            <option value="3">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Document Number:</label>
+                                    <div class="col-sm-10">
+                                        <input id="add_contacts_documentNum" class="form-control" name='documentNumber' value=''>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Phone Number:</label>
+                                    <div class="col-sm-10">
+                                        <input id="add_contacts_phoneNum" class="form-control" name='phoneNumber' value=''>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button id="add_contacts_button" type="button" class="btn btn-primary">Add Contacts</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2">
+                                        <label class="control-label">Add Contacts Status:</label>
+                                        <span id="add_contacts_result_status"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2">
+                                        <label class="control-label">Add Contacts Message:</label>
+                                        <span id="add_contacts_result_msg"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2">
+                                        <label class="control-label">Contacts Info:</label>
+                                        <span id="add_contacts_result_contacts"></span>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Your Contacts List
+                            <button id="refresh_contacts_button" type="button" class="btn btn-default btn-sm">Refresh Contacts</button>
+                        </h3>
+                    </div>
+                    <div class="group panel-body">
+                        <table id="contacts_list_table" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Name</th>
+                                <th>Document Type</th>
+                                <th>Document Number</th>
+                                <th>Phone Number</th>
+                                <th>Operation</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <!----An empty table----->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!----------------------------------------------Travel--------------------------------------------- -->
+                <div class="step panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Travel Service
+                        </h3>
+                    </div>
+                    <div class="input-box panel-body">
+                        <form role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Trip Id(e.g.G1234): </label>
+                                <div class="col-sm-10">
+                                    <input id="travel_create_tripId" class="form-control" name='tripId' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">TrainType ID: </label>
+                                <div class="col-sm-10">
+                                    <input id="travel_create_trainTypeId" class="form-control" name='trainTypeId' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">startingStation: </label>
+                                <div class="col-sm-10">
+                                    <input id="travel_create_startingStation" class="form-control" name='startingStation' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Station: </label>
+                                <div class="col-sm-10">
+                                    <input id="travel_create_stations" class="form-control" name='stations' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">TerminalStation: </label>
+                                <div class="col-sm-10">
+                                    <input id="travel_create_terminalStation" class="form-control" name='terminalStation' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">StartingTime: </label>
+                                <div class="col-sm-10">
+                                    <input id="travel_create_startingTime" type="time" class="form-control" name='startingTime' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">EndTime: </label>
+                                <div class="col-sm-10">
+                                    <input id="travel_create_endTime" type="time" class="form-control" name='endTime' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button id="travel_create_button" type="button" class="btn btn-primary">Create Trip</button>
+                                </div>
+                            </div>
+                        </form>
+                        <form role="form" class="form-horizontal" enctype='application/json'>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Trip Id(e.g.G1234): </label>
+                                <div class="col-sm-10">
+                                    <input id="travel_update_tripId" class="form-control" name='tripId' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">TrainType ID: </label>
+                                <div class="col-sm-10">
+                                    <input id="travel_update_trainTypeId" class="form-control" name='trainTypeId' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">startingStation: </label>
+                                <div class="col-sm-10">
+                                    <input id="travel_update_startingStation" class="form-control" name='startingStation' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Station: </label>
+                                <div class="col-sm-10">
+                                    <input id="travel_update_stations" class="form-control" name='stations' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">TerminalStation: </label>
+                                <div class="col-sm-10">
+                                    <input id="travel_update_terminalStation" class="form-control" name='terminalStation' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">StartingTime: </label>
+                                <div class="col-sm-10">
+                                    <input id="travel_update_startingTime" class="form-control" name='startingTime' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">EndTime: </label>
+                                <div class="col-sm-10">
+                                    <input id="travel_update_endTime" class="form-control" name='endTime' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button id="travel_update_button" type="button" class="btn btn-primary">Update Trip</button>
+                                </div>
+                            </div>
+                        </form>
+                        <form role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Trip Id(e.g.G1234): </label>
+                                <div class="col-sm-10">
+                                    <input id="travel_retrieve_tripId" class="form-control" name='tripId' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button id="travel_retrieve_button" type="button" class="btn btn-primary">Query Trip</button>
+                                </div>
+                            </div>
+                        </form>
+                        <form role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Trip Id(e.g.G1234): </label>
+                                <div class="col-sm-10">
+                                    <input id="travel_delete_tripId" class="form-control" name='tripId' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button id="travel_delete_button" type="button" class="btn btn-primary">Delete Trip</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="result">
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <label class="control-label">Result:</label>
+                                    <span id="travel_result"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!------------------------------------------Ticket Query------------------------------------------------------>
+                <div class="step panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Query Train & Tickets
+                        </h3>
+                    </div>
+
+                    <div class="input-box panel-body">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Starting Place:</label>
+                                <div class="col-sm-10">
+                                    <input id="travel_query_startingPlace" class="form-control" name='' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Terminal Place:</label>
+                                <div class="col-sm-10">
+                                    <input id="travel_query_terminalPlace" class="form-control" name='' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Date:</label>
+                                <div class="col-sm-10">
+                                    <input id="travel_query_date" class="form-control" type="date" name='' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button id="travel_query_button" type="button" class="btn btn-primary">Search</button>
+                                </div>
+                            </div>
+                        </form>
+                        <table id="query_tickets_list_table" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>车次</th>
+                                    <th>起始站</th>
+                                    <th>到达站</th>
+                                    <th>开车时间</th>
+                                    <th>到达时间</th>
+                                    <th>二等座余量</th>
+                                    <th>商务座余量</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!--This is an empty table body-->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-----------------------------------------------Buy Ticket---------------------------------->
+                <div class="step panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Ticket Booking
+                        </h3>
+                    </div>
+
+                    <div class="input-box panel-body">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Starting Place:</label>
+                                <div class="col-sm-10">
+                                    <input id="travel_booking_startingPlace" class="form-control" name='' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Terminal Place:</label>
+                                <div class="col-sm-10">
+                                    <input id="travel_booking_terminalPlace" class="form-control" name='' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Date:</label>
+                                <div class="col-sm-10">
+                                    <input id="travel_booking_date" class="form-control" type="date" name='' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button id="travel_booking_button" type="button" class="btn btn-primary">Search</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Your Contacts List
+                            <button id="refresh_booking_contacts_button" type="button" class="btn btn-default btn-sm">Refresh Contacts</button>
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <table id="contacts_booking_list_table" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Name</th>
+                                <th>Document Type</th>
+                                <th>Document Number</th>
+                                <th>Phone Number</th>
+                                <th>Operation</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <!----An empty table----->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Tickets Searching Result
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <table id="tickets_booking_list_table" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Trip Id</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Starting Time</th>
+                                <th>End Time</th>
+                                <th>2rd Class Seat Number</th>
+                                <th>1st Class Seat Number</th>
+                                <th>Operation</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <!--This is an empty table body-->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-----------------------------------------------Station------------------------------------->
+                <div class="step panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Station Service
+                        </h3>
+                    </div>
+                    <div>
+                        <div class="input-box panel-body">
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Station Name: </label>
+                                    <div class="col-sm-10">
+                                        <input id="station_create_name" class="form-control" name='name' value=''>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button id="station_create_button" type="button" class="btn btn-primary">Add Station</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Station Name: </label>
+                                    <div class="col-sm-10">
+                                        <input id="station_exist_name" class="form-control" name='name' value=''>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button id="station_exist_button" type="button" class="btn btn-primary">Query Station</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Station Name: </label>
+                                    <div class="col-sm-10">
+                                        <input id="station_delete_name" class="form-control" name='name' value=''>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button id="station_delete_button" type="button" class="btn btn-primary">Delete Station</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="result">
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <label class="control-label">Result:</label>
+                                        <span id="station_result"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-----------------------------------------------Train--------------------------------------->
+                <div class="step panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Train Service
+                        </h3>
+                    </div>
+                    <div class="input-box panel-body">
+                        <form role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Train Id: </label>
+                                <div class="col-sm-10">
+                                    <input id="train_create_id" class="form-control" name='id' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Economy Class: </label>
+                                <div class="col-sm-10">
+                                    <input id="train_create_economyClass" type="number" class="form-control" name='economyClass' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Confort Class: </label>
+                                <div class="col-sm-10">
+                                    <input id="train_create_confortClass" type="number" class="form-control" name='confortClass' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button id="train_create_button" type="button" class="btn btn-primary">Create Train Type</button>
+                                </div>
+                            </div>
+                        </form>
+                        <form role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Train Id: </label>
+                                <div class="col-sm-10">
+                                    <input id="train_update_id" class="form-control" name='id' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Economy Class: </label>
+                                <div class="col-sm-10">
+                                    <input id="train_update_economyClass" class="form-control" name='economyClass' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Confort Class: </label>
+                                <div class="col-sm-10">
+                                    <input id="train_update_confortClass" class="form-control" name='confortClass' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button id="train_update_button" type="button" class="btn btn-primary">Update Train Type</button>
+                                </div>
+                            </div>
+                        </form>
+                        <form role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Train Id: </label>
+                                <div class="col-sm-10">
+                                    <input id="train_query_id" class="form-control" name='id' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button id="train_query_button" type="button" class="btn btn-primary">Query Train Type</button>
+                                </div>
+                            </div>
+                        </form>
+                        <form role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Train Id: </label>
+                                <div class="col-sm-10">
+                                    <input id="train_delete_id" class="form-control" name='id' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button id="train_delete_button" type="button" class="btn btn-primary">Delete Train Type</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="result">
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <label class="control-label">Result:</label>
+                                    <span id="train_result"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-----------------------------------------------Config-------------------------------------->
+                <div class="step panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Config Service
+                        </h3>
+                    </div>
+                    <div class="input-box panel-body">
+                        <form role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Config name: </label>
+                                <div class="col-sm-10">
+                                    <input id="config_create_name" class="form-control" name='name' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Config value: </label>
+                                <div class="col-sm-10">
+                                    <input id="config_create_value" class="form-control" name='value' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Description: </label>
+                                <div class="col-sm-10">
+                                    <input id="config_create_description" class="form-control" name='description' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button id="config_create_button" type="button" class="btn btn-primary">Add Config</button>
+                                </div>
+                            </div>
+                        </form>
+                        <form role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Config name: </label>
+                                <div class="col-sm-10">
+                                    <input id="config_update_name" class="form-control" name='name' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Config value: </label>
+                                <div class="col-sm-10">
+                                    <input id="config_update_value" class="form-control" name='value' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Description: </label>
+                                <div class="col-sm-10">
+                                    <input id="config_update_description" class="form-control" name='description' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button id="config_update_button" type="button" class="btn btn-primary">Update Config</button>
+                                </div>
+                            </div>
+                        </form>
+                        <form role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Config name: </label>
+                                <div class="col-sm-10">
+                                    <input id="config_query_name" class="form-control" name='name' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button id="config_query_button" type="button" class="btn btn-primary">Query Config</button>
+                                </div>
+                            </div>
+                        </form>
+                        <form role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Config name: </label>
+                                <div class="col-sm-10">
+                                    <input id="config_delete_name" class="form-control" name='name' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button id="config_delete_button" type="button" class="btn btn-primary">Delete Config</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="result">
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <label class="control-label">Result:</label>
+                                    <span id="config_result"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

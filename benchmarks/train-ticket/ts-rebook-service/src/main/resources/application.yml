@@ -1,0 +1,28 @@
+# HTTP Server
+server:
+  port: 18886  # HTTP (Tomcat) port
+
+spring:
+  application:
+    name: ts-rebook-service
+swagger:
+  controllerPackage: rebook.controller
+#  rabbitmq:
+#    host: rabbitmq
+#    listener:
+#      retry:
+#        enabled: false
+#        max-attempts: 1
+#    template:
+#      retry:
+#        enabled: false
+#        max-attempts: 1
+
+#  cloud:
+#    stream:
+#      bindings:
+#        output:
+#          group: queue-group-rebook
+#          destination: ts-rebook-service-queue-output
+#          contentType: text/plain
+#          binder: rabbit

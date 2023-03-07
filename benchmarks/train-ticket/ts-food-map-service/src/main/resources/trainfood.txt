@@ -1,0 +1,14 @@
+tripId=G1234
+foodList=Pork Chop with rice,9.5_Egg Soup,3.2
+
+tripId=G1235
+foodList=Beef with rice,9.5_Soup,3.7_Pork pickled mustard green noodles,10
+
+tripId=G1236
+foodList=Seafood noodles,9.5_Glutinous rice,0.9_Dumplings,5.5
+
+tripId=G1237
+foodList=Spring rolls,1.5_Vegetable soup,0.8_Rice and vegetable roll,1
+
+tripId=D1345
+foodList=Spicy hot noodles,5_Soup,3.7_Oily bean curd,2

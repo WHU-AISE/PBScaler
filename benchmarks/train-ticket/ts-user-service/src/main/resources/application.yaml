@@ -1,0 +1,14 @@
+server:
+  port: 12342
+
+spring:
+  application:
+    name: ts-user-service
+  data:
+    mongodb:
+      host: ts-user-mongo
+      database: ts-user-mongo
+      port: 27017
+
+swagger:
+  controllerPackage: user.controller

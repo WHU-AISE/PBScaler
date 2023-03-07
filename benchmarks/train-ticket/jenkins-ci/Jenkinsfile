@@ -1,0 +1,69 @@
+pipeline {
+    agent any
+    tools {
+        jdk 'jdk8'
+        maven 'maven-3.6.1'
+    }
+    stages {
+
+        // At this stage, the jar artifacts are first built using maven, and then the docker images are built.
+        stage('Build') {
+            steps {
+                echo "Maven Building..."
+                sh 'mvn clean package -Dmaven.test.skip=true'
+                echo "Package Successful!"
+
+                script {
+                    if (env.BRANCH_NAME == 'master') {
+                        echo "Docker Building..."
+                        // sh 'sudo /usr/local/bin/docker-compose build'
+                        echo "Building images Successful!"
+
+                        echo "Pushing images..."
+                        withCredentials([usernamePassword(credentialsId: 'dockerHub-codewisdom', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+                            sh "sudo docker login -u ${dockerHubUser} -p ${dockerHubPassword}"
+                            // sh "sudo /bin/bash ./jenkins-ci/image-tag-push.sh"
+                        }
+                        echo "Push Successful"
+                    } else {
+                        echo "This isn't the master branch. Skip the docker building & pushing step!"
+                    }
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo "P3C-PMD"
+                sh "mvn pmd:pmd"
+
+                echo "Unit Test..."
+                sh 'mvn test'
+                echo "Test Successful"
+	
+                jacoco(
+                    execPattern: '**/target/jacoco.exec',
+                    classPattern: '**/target/classes',
+                    sourcePattern: '**/src/main/java',
+                    exclusionPattern: '**/src/test*',
+                    changeBuildStatus: true
+                )
+            }
+        }
+
+    }
+	
+    post {
+        always {
+            pmd(canRunOnFailed: true, pattern: '**/target/pmd.xml')
+            junit testResults: "**/target/surefire-reports/*.xml"
+            sh 'sudo /bin/bash ./jenkins-ci/clean.sh'
+        }
+        failure {
+            mail from : 'jenkinsx@163.com',
+            to : '1989153584@qq.com',
+            subject : "Failed Pipeline: ${currentBuild.fullDisplayName} :(",
+            body : "Something is wrong with ${env.BUILD_URL}"
+        }
+    }
+}

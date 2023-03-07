@@ -1,0 +1,17 @@
+spring:
+    application:
+      name: ts-config-service
+    data:
+      mongodb:
+        host: ts-config-mongo
+#       username: user
+#       password: ${MONGODB_PASSWORD}
+        database: ts
+        port: 27017
+
+# HTTP Server
+server:
+  port: 15679  # HTTP (Tomcat) port
+
+swagger:
+  controllerPackage: config.controller

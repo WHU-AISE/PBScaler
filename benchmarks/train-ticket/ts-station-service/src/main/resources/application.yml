@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: ts-station-service
+  data:
+    mongodb:
+      host: ts-station-mongo
+#      username: user
+#      password: ${MONGODB_PASSWORD}
+      database: ts
+      port: 27017
+
+# HTTP Server
+server:
+  port: 12345  # HTTP (Tomcat) port
+
+swagger:
+  controllerPackage: fdse.microservice

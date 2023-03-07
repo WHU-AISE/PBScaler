@@ -1,0 +1,11 @@
+# HTTP Server
+server:
+  port: 14322  # HTTP (Tomcat) port
+
+spring:
+  application:
+    name: ts-travel-plan-service
+
+
+swagger:
+  controllerPackage: travelplan.controller

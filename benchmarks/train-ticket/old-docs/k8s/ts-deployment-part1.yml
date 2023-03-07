@@ -1,0 +1,708 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: redis
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 6379
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-account-mongo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-account-mongo
+    spec:
+      containers:
+      - name: ts-account-mongo
+        image: mongo
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 27017
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-route-mongo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-route-mongo
+    spec:
+      containers:
+      - name: ts-route-mongo
+        image: mongo
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 27017
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-contacts-mongo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-contacts-mongo
+    spec:
+      containers:
+      - name: ts-contacts-mongo
+        image: mongo
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 27017
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-order-mongo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-order-mongo
+    spec:
+      containers:
+      - name: ts-order-mongo
+        image: mongo
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 27017
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-order-other-mongo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-order-other-mongo
+    spec:
+      containers:
+      - name: ts-order-other-mongo
+        image: mongo
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 27017
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-config-mongo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-config-mongo
+    spec:
+      containers:
+      - name: ts-config-mongo
+        image: mongo
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 27017
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-station-mongo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-station-mongo
+    spec:
+      containers:
+      - name: ts-station-mongo
+        image: mongo
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 27017
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-train-mongo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-train-mongo
+    spec:
+      containers:
+      - name: ts-train-mongo
+        image: mongo
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 27017
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-travel-mongo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-travel-mongo
+    spec:
+      containers:
+      - name: ts-travel-mongo
+        image: mongo
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 27017
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-travel2-mongo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-travel2-mongo
+    spec:
+      containers:
+      - name: ts-travel2-mongo
+        image: mongo
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 27017
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-price-mongo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-price-mongo
+    spec:
+      containers:
+      - name: ts-price-mongo
+        image: mongo
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 27017
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-security-mongo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-security-mongo
+    spec:
+      containers:
+      - name: ts-security-mongo
+        image: mongo
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 27017
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-inside-payment-mongo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-inside-payment-mongo
+    spec:
+      containers:
+      - name: ts-inside-payment-mongo
+        image: mongo
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 27017
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-payment-mongo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-payment-mongo
+    spec:
+      containers:
+      - name: ts-payment-mongo
+        image: mongo
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 27017
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-assurance-mongo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-assurance-mongo
+    spec:
+      containers:
+      - name: ts-assurance-mongo
+        image: mongo
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 27017
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-ticket-office-mongo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-ticket-office-mongo
+    spec:
+      containers:
+      - name: ts-ticket-office-mongo
+        image: mongo
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 27017
+
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-voucher-mysql
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-voucher-mysql
+    spec:
+      containers:
+      - name: ts-voucher-mysql
+        image: 10.141.211.160:5000/master/cluster-ts-mysql
+        imagePullPolicy: IfNotPresent
+        env:
+        # Use secret in real usage
+        - name: MYSQL_ROOT_PASSWORD
+          value: root
+        ports:
+        - containerPort: 3306
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-food-map-mongo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-food-map-mongo
+    spec:
+      containers:
+      - name: ts-food-map-mongo
+        image: mongo
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 27017
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-consign-mongo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-consign-mongo
+    spec:
+      containers:
+      - name: ts-consign-mongo
+        image: mongo
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 27017
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-consign-price-mongo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-consign-price-mongo
+    spec:
+      containers:
+      - name: ts-consign-price-mongo
+        image: mongo
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 27017
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-food-mongo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-food-mongo
+    spec:
+      containers:
+      - name: ts-food-mongo
+        image: mongo
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 27017
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+spec:
+  ports:
+    - port: 6379
+  selector:
+   app: redis
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-account-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-account-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-route-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-route-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-contacts-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-contacts-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-order-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-order-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-order-other-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-order-other-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-config-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-config-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-station-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-station-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-train-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-train-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-travel-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-travel-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-travel2-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-travel2-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-price-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-price-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-security-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-security-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-inside-payment-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-inside-payment-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-payment-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-payment-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-assurance-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-assurance-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-ticket-office-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-ticket-office-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-voucher-mysql
+spec:
+  ports:
+    - port: 3306
+  selector:
+   app: ts-voucher-mysql
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-food-map-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-food-map-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-consign-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-consign-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-consign-price-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-consign-price-mongo
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ts-food-mongo
+spec:
+  ports:
+    - port: 27017
+  selector:
+   app: ts-food-mongo
+
+---

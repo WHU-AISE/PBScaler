@@ -1,0 +1,16 @@
+#########################################
+# voucher service f1.1 version, sql error
+#########################################
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: ts-voucher-service
+spec:
+  host: ts-voucher-service
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2

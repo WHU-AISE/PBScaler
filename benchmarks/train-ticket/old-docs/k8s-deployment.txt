@@ -1,0 +1,39 @@
+
+
+steps:
+
+1. databases:
+       kubectl create -f ts-deployment-part1.yml
+       kubectl create -f ts-service-part1.yml
+   
+       kubectl get pods 
+
+2. microserivces:
+       kubectl create -f ts-deployment-part2-1.yml
+       kubectl create -f ts-deployment-part2-2.yml
+       kubectl create -f ts-service-part2-1.yml
+       kubectl create -f ts-service-part2-2.yml
+
+3. ui:
+       kubectl create -f ts-deployment-part3.yml
+       kubectl create -f ts-service-part3.yml
+
+4. delete services:
+       kubectl delete -f ./ts-service-part3.yml    
+
+  delete deployments:
+       kubectl delete -f ./ts-service-part3.yml
+       kubectl delete -f ./ts-deployment-part3.yml
+
+       kubectl delete -f ./ts-service-part2-2.yml
+       kubectl delete -f ./ts-deployment-part2-2.yml
+
+       kubectl delete -f ./ts-service-part2-1.yml
+       kubectl delete -f ./ts-deployment-part2-1.yml
+
+       kubectl delete -f ./ts-service-part1.yml
+       kubectl delete -f ./ts-deployment-part1.yml
+
+5. logs
+       kubectl logs ts-sso-service-896060255-wr736    
+       kubectl describe service ts-ui-dashboard       

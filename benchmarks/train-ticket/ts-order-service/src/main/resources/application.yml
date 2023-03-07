@@ -1,0 +1,17 @@
+# HTTP Server
+server:
+  port: 12031  # HTTP (Tomcat) port
+
+spring:
+  application:
+    name: ts-order-service
+  data:
+    mongodb:
+      host: ts-order-mongo
+#      username: user
+#      password: ${MONGODB_PASSWORD}
+      database: ts
+      port: 27017
+
+swagger:
+  controllerPackage: order.controller

@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: ts-price-service
+  data:
+    mongodb:
+      host: ts-price-mongo
+#      username: user
+#      password: ${MONGODB_PASSWORD}
+      database: ts
+      port: 27017
+
+
+# HTTP Server
+server:
+  port: 16579  # HTTP (Tomcat) port
+
+swagger:
+  controllerPackage: price.controller

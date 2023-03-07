@@ -1,0 +1,528 @@
+version: '3'
+services:
+
+#  rabbitmq:
+#    image: rabbitmq:management
+#    ports:
+#      - 5672:5672
+#      - 15672:15672
+#    networks:
+#      - my-network
+
+  # kafka:
+  #   container_name: kafka
+  #   image: spotify/kafka:latest
+  #   ports:
+  #    - 2181:2181
+  #    - 9092:9092
+  #   networks:
+  #     - my-network
+
+#  zipkin:
+#    image: openzipkin/zipkin
+#    ports:
+#      - 9411:9411
+#    networks:
+#      - my-network
+
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+    networks:
+      - my-network
+
+  ts-ui-dashboard:
+    image: ${NAMESPACE}/ts-ui-dashboard:${TAG}
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - my-network
+
+  ts-auth-service:
+    image: ${NAMESPACE}/ts-auth-service:${TAG}
+    restart: always
+    ports:
+      - 12340:12340
+    networks:
+      - my-network
+
+  ts-auth-mongo:
+    image: mongo
+    networks:
+      - my-network
+
+  ts-user-service:
+    image: ${NAMESPACE}/ts-user-service:${TAG}
+    restart: always
+    ports:
+      - 12342:12342
+    networks:
+      - my-network
+
+  ts-user-mongo:
+    image: mongo
+    networks:
+      - my-network
+
+  ts-verification-code-service:
+    image: ${NAMESPACE}/ts-verification-code-service:${TAG}
+    restart: always
+    ports:
+      - 15678:15678
+    networks:
+      - my-network
+
+
+  ts-account-mongo:
+    image: mongo
+    networks:
+      - my-network
+
+  ts-route-service:
+    image: ${NAMESPACE}/ts-route-service:${TAG}
+    restart: always
+    ports:
+         - 11178:11178
+    networks:
+      - my-network
+
+  ts-route-mongo:
+    image: mongo
+    networks:
+        - my-network
+
+  ts-contacts-service:
+    image: ${NAMESPACE}/ts-contacts-service:${TAG}
+    restart: always
+    ports:
+      - 12347:12347
+    networks:
+      - my-network
+
+  ts-contacts-mongo:
+      image: mongo
+      networks:
+        - my-network
+
+  ts-order-service:
+    image: ${NAMESPACE}/ts-order-service:${TAG}
+    restart: always
+    ports:
+      - 12031:12031
+    networks:
+      - my-network
+
+  ts-order-mongo:
+    image: mongo
+    networks:
+      - my-network
+
+
+  ts-order-other-service:
+    image: ${NAMESPACE}/ts-order-other-service:${TAG}
+    restart: always
+    ports:
+      - 12032:12032
+    networks:
+      - my-network
+
+  ts-order-other-mongo:
+    image: mongo
+    networks:
+      - my-network
+
+
+  ts-config-service:
+    image: ${NAMESPACE}/ts-config-service:${TAG}
+    restart: always
+    ports:
+      - 15679:15679
+    networks:
+      - my-network
+
+  ts-config-mongo:
+    image: mongo
+    networks:
+      - my-network
+
+  ts-station-service:
+    image: ${NAMESPACE}/ts-station-service:${TAG}
+    restart: always
+    ports:
+      - 12345:12345
+    networks:
+      - my-network
+
+  ts-station-mongo:
+    image: mongo
+    networks:
+      - my-network
+
+  ts-train-service:
+    image: ${NAMESPACE}/ts-train-service:${TAG}
+    restart: always
+    ports:
+      - 14567:14567
+    networks:
+      - my-network
+
+  ts-train-mongo:
+    image: mongo
+    networks:
+      - my-network
+
+  ts-travel-service:
+    image: ${NAMESPACE}/ts-travel-service:${TAG}
+    restart: always
+    ports:
+      - 12346:12346
+    networks:
+      - my-network
+
+  ts-travel-mongo:
+    image: mongo
+    networks:
+      - my-network
+
+  ts-travel2-service:
+      image: ${NAMESPACE}/ts-travel2-service:${TAG}
+      restart: always
+      ports:
+        - 16346:16346
+      networks:
+        - my-network
+
+  ts-travel2-mongo:
+      image: mongo
+      networks:
+        - my-network
+
+  ts-preserve-service:
+    image: ${NAMESPACE}/ts-preserve-service:${TAG}
+    restart: always
+    ports:
+      - 14568:14568
+    networks:
+      - my-network
+
+  ts-preserve-other-service:
+    image: ${NAMESPACE}/ts-preserve-other-service:${TAG}
+    restart: always
+    ports:
+      - 14569:14569
+    networks:
+      - my-network
+
+
+  ts-basic-service:
+      image: ${NAMESPACE}/ts-basic-service:${TAG}
+      restart: always
+      ports:
+        - 15680:15680
+      networks:
+          - my-network
+
+  ts-ticketinfo-service:
+        image: ${NAMESPACE}/ts-ticketinfo-service:${TAG}
+        restart: always
+        ports:
+          - 15681:15681
+        networks:
+          - my-network
+
+  ts-price-service:
+        image: ${NAMESPACE}/ts-price-service:${TAG}
+        restart: always
+        ports:
+          - 16579:16579
+        networks:
+          - my-network
+
+  ts-price-mongo:
+        image: mongo
+        networks:
+          - my-network
+
+  ts-notification-service:
+        image: ${NAMESPACE}/ts-notification-service:${TAG}
+        restart: always
+        ports:
+          - 17853:17853
+        networks:
+          - my-network
+
+  ts-security-service:
+        image: ${NAMESPACE}/ts-security-service:${TAG}
+        restart: always
+        ports:
+          - 11188:11188
+        networks:
+          - my-network
+
+  ts-security-mongo:
+        image: mongo
+        networks:
+          - my-network
+
+  ts-inside-payment-service:
+        image: ${NAMESPACE}/ts-inside-payment-service:${TAG}
+        restart: always
+        ports:
+          - 18673:18673
+        networks:
+          - my-network
+
+  ts-inside-payment-mongo:
+        image: mongo
+        networks:
+          - my-network
+
+  ts-execute-service:
+        image: ${NAMESPACE}/ts-execute-service:${TAG}
+        restart: always
+        ports:
+          - 12386:12386
+        networks:
+          - my-network
+
+  ts-payment-service:
+        image: ${NAMESPACE}/ts-payment-service:${TAG}
+        restart: always
+        ports:
+          - 19001:19001
+        networks:
+          - my-network
+
+  ts-payment-mongo:
+        image: mongo
+        networks:
+          - my-network
+
+  ts-rebook-service:
+        image: ${NAMESPACE}/ts-rebook-service:${TAG}
+        restart: always
+        ports:
+          - 18886:18886
+        networks:
+          - my-network
+
+  ts-rebook-mongo:
+        image: mongo
+        networks:
+          - my-network
+
+  ts-cancel-service:
+        image: ${NAMESPACE}/ts-cancel-service:${TAG}
+        restart: always
+        ports:
+          - 18885:18885
+        networks:
+          - my-network
+
+  ts-assurance-service:
+        image: ${NAMESPACE}/ts-assurance-service:${TAG}
+        restart: always
+        ports:
+          - 18888:18888
+        networks:
+          - my-network
+
+  ts-assurance-mongo:
+        image: mongo
+        networks:
+          - my-network
+
+  ts-seat-service:
+        image: ${NAMESPACE}/ts-seat-service:${TAG}
+        restart: always
+        ports:
+          - 18898:18898
+        networks:
+          - my-network
+
+  ts-travel-plan-service:
+        image: ${NAMESPACE}/ts-travel-plan-service:${TAG}
+        restart: always
+        ports:
+          - 14322:14322
+        networks:
+          - my-network
+
+  ts-ticket-office-service:
+        image: ${NAMESPACE}/ts-ticket-office-service:${TAG}
+        restart: always
+        ports:
+          - 16108:16108
+        networks:
+          - my-network
+
+  ts-ticket-office-mongo:
+          image: mongo
+          networks:
+            - my-network
+
+  ts-news-service:
+    image: ${NAMESPACE}/ts-news-service:${TAG}
+    restart: always
+    ports:
+      - 12862:12862
+    networks:
+      - my-network
+
+  ts-news-mongo:
+        image: mongo
+        networks:
+          - my-network
+
+  ts-voucher-mysql:
+         image: mysql
+         expose:
+            - "3306"
+         environment:
+           MYSQL_ROOT_PASSWORD: root
+         networks:
+           - my-network
+
+  ts-voucher-service:
+          image: ${NAMESPACE}/ts-voucher-service:${TAG}
+          restart: always
+          ports:
+            - 16101:16101
+          depends_on:
+            - ts-voucher-mysql
+          volumes:
+            - /var/lib/mysql
+          networks:
+            - my-network
+
+  ts-food-map-service:
+        image: ${NAMESPACE}/ts-food-map-service:${TAG}
+        restart: always
+        ports:
+          - 18855:18855
+        networks:
+          - my-network
+
+  ts-food-map-mongo:
+          image: mongo
+          networks:
+            - my-network
+
+  ts-route-plan-service:
+          image: ${NAMESPACE}/ts-route-plan-service:${TAG}
+          restart: always
+          ports:
+            - 14578:14578
+          networks:
+            - my-network
+
+  ts-food-service:
+    image: ${NAMESPACE}/ts-food-service:${TAG}
+    restart: always
+    ports:
+      - 18856:18856
+    networks:
+      - my-network
+
+  ts-consign-service:
+    image: ${NAMESPACE}/ts-consign-service:${TAG}
+    restart: always
+    ports:
+      - 16111:16111
+    networks:
+      - my-network
+
+  ts-consign-mongo:
+    image: mongo
+    networks:
+      - my-network
+
+  ts-consign-price-service:
+    image: ${NAMESPACE}/ts-consign-price-service:${TAG}
+    restart: always
+    ports:
+      - 16110:16110
+    networks:
+      - my-network
+
+  ts-consign-price-mongo:
+    image: mongo
+    networks:
+      - my-network
+
+  ts-food-mongo:
+    image: mongo
+    networks:
+      - my-network
+
+  ts-admin-basic-info-service:
+    image: ${NAMESPACE}/ts-admin-basic-info-service:${TAG}
+    restart: always
+    ports:
+      - 18767:18767
+    networks:
+      - my-network
+
+  ts-admin-order-service:
+    image: ${NAMESPACE}/ts-admin-order-service:${TAG}
+    restart: always
+    ports:
+      - 16112:16112
+    networks:
+      - my-network
+
+  ts-admin-route-service:
+    image: ${NAMESPACE}/ts-admin-route-service:${TAG}
+    restart: always
+    ports:
+      - 16113:16113
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    networks:
+      - my-network
+
+  ts-admin-travel-service:
+    image: ${NAMESPACE}/ts-admin-travel-service:${TAG}
+    restart: always
+    ports:
+      - 16114:16114
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    networks:
+      - my-network
+
+  ts-admin-user-service:
+    image: ${NAMESPACE}/ts-admin-user-service:${TAG}
+    restart: always
+    ports:
+      - 16115:16115
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    networks:
+      - my-network
+
+  ts-avatar-service:
+    image: ${NAMESPACE}/ts-avatar-service:${TAG}
+    restart: always
+    ports:
+      - 17001:17001
+    networks:
+      - my-network
+
+networks:
+    my-network:
+      # driver: overlay
+      driver: bridge
+
+
+
+
+

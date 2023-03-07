@@ -1,0 +1,54 @@
+<!doctype html>
+<html ng-app="myApp">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>TrainTicket Login</title>
+    <meta name="description" content="This is the login page">
+    <meta name="keywords" content="index">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="icon" type="image/png" href="assets/i/favicon.png">
+    <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+    <link rel="stylesheet" href="assets/css/amazeui.min.css" />
+    <link rel="stylesheet" href="assets/css/admin.css">
+    <link rel="stylesheet" href="assets/css/app.css">
+    <script type="text/javascript" src="assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/js/amazeui.min.js"></script>
+    <script type="text/javascript" src="assets/js/app.js"></script>
+    <script type="text/javascript" src="assets/js/angular.js"></script>
+    <script type="text/javascript" src="assets/js/adminlogin.js"></script>
+</head>
+
+<body data-type="login">
+
+<div class="am-g myapp-login">
+    <div class="myapp-login-logo-block  tpl-login-max">
+        <div class="myapp-login-logo-text">
+            <div class="myapp-login-logo-text">
+                TrainTicket<span> Login</span> <i class="am-icon-skyatlas"></i>
+            </div>
+        </div>
+
+        <div class="am-u-sm-10 login-am-center" ng-controller="loginCtrl">
+            <form class="am-form">
+                <fieldset>
+                    <div class="am-form-group border-bottom">
+                        <input type="text" class="" id="doc-ipt-email-1" ng-model="username" placeholder="Username">
+                    </div>
+                    <div class="am-form-group">
+                        <input type="password" class="" id="doc-ipt-pwd-1" ng-model="password" placeholder="Password">
+                    </div>
+                    <p><button type="submit" class="am-btn am-btn-default" ng-click="login()">Login</button></p>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,385 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: trainticket-gateway
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: trainticket
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - trainticket-gateway
+  http:
+  - match:
+    - uri:
+        exact: /
+    - uri:
+        exact: /old_index.html
+    - uri:
+        exact: /index.html
+    - uri:
+        exact: /client_ticket_collect.html
+    - uri:
+        exact: /client_ticket_book.html
+    - uri:
+        exact: /client_order_list.html
+    - uri:
+        exact: /client_login.html
+    - uri:
+        exact: /client_enter_station.html
+    - uri:
+        exact: /client_consign_list.html
+    - uri:
+        exact: /client_adsearch.html
+    - uri:
+        exact: /voucher.html
+    - uri:
+        exact: /adminlogin.html
+    - uri:
+        exact: /admin_user.html
+    - uri:
+        exact: /admin_travel.html
+    - uri:
+        exact: /admin_train.html
+    - uri:
+        exact: /admin_station.html
+    - uri:
+        exact: /admin_route.html
+    - uri:
+        exact: /admin_price.html
+    - uri:
+        exact: /admin_contacts.html
+    - uri:
+        exact: /admin_config.html
+    - uri:
+        exact: /admin.html
+    - uri:
+        exact: /add&delete.html
+    - uri:
+        prefix: /js/
+    - uri:
+        prefix: /css/
+    - uri:
+        prefix: /assets/
+    route:
+    - destination:
+        host: ts-ui-dashboard
+        port:
+          number: 8080
+  - match:
+    - uri:
+        prefix: /api/v1/users
+    route:
+    - destination:
+        host: ts-auth-service
+        port:
+          number: 12340
+  - match:
+    - uri:
+        prefix: /api/v1/verifycode
+    route:
+    - destination:
+        host: ts-verification-code-service
+        port:
+          number: 15678
+  - match:
+    - uri:
+        prefix: /api/v1/stationservice
+    route:
+    - destination:
+        host: ts-station-service
+        port:
+          number: 12345
+  - match:
+    - uri:
+        prefix:  /api/v1/trainservice
+    route:
+    - destination:
+        host: ts-train-service
+        port:
+          number: 14567
+  - match:
+    - uri:
+        prefix: /api/v1/configservice
+    route:
+    - destination:
+        host: ts-config-service
+        port:
+          number: 15679
+  - match:
+    - uri:
+        prefix: /api/v1/securityservice
+    route:
+    - destination:
+        host: ts-security-service
+        port:
+          number: 11188
+  - match:
+    - uri:
+        prefix: /api/v1/executeservice
+    route:
+    - destination:
+        host: ts-execute-service
+        port:
+          number: 12386
+  - match:
+    - uri:
+        prefix: /api/v1/contactservice
+    route:
+    - destination:
+        host: ts-contacts-service
+        port:
+          number: 12347
+  - match:
+    - uri:
+        prefix: /api/v1/orderservice
+    route:
+    - destination:
+        host: ts-order-service
+        port:
+          number: 12031
+  - match:
+    - uri:
+        prefix: /api/v1/orderOtherService
+    route:
+    - destination:
+        host: ts-order-other-service
+        port:
+          number: 12032
+  - match:
+    - uri:
+        prefix: /api/v1/travelservice
+    route:
+    - destination:
+        host: ts-travel-service
+        port:
+          number: 12346
+  - match:
+    - uri:
+        prefix: /api/v1/travel2service
+    route:
+    - destination:
+        host: ts-travel2-service
+        port:
+          number: 16346
+  - match:
+    - uri:
+        prefix: /api/v1/preserveservice
+    route:
+    - destination:
+        host: ts-preserve-service
+        port:
+          number: 14568
+  - match:
+    - uri:
+        prefix: /api/v1/preserveotherservice
+    route:
+    - destination:
+        host: ts-preserve-other-service
+        port:
+          number: 14569
+  - match:
+    - uri:
+        prefix: /api/v1/priceservice
+    route:
+    - destination:
+        host: ts-price-service
+        port:
+          number: 16579
+  - match:
+    - uri:
+        prefix: /api/v1/basicservice
+    route:
+    - destination:
+        host: ts-basic-service
+        port:
+          number: 15680
+  - match:
+    - uri:
+        prefix:  /api/v1/ticketinfoservice
+    route:
+    - destination:
+        host: ts-ticketinfo-service
+        port:
+          number: 15681
+  - match:
+    - uri:
+        prefix: /api/v1/notifyservice
+    route:
+    - destination:
+        host: ts-notification-service
+        port:
+          number: 17853
+  - match:
+    - uri:
+        prefix: /api/v1/inside_pay_service
+    route:
+    - destination:
+        host: ts-inside-payment-service
+        port:
+          number: 18673
+  - match:
+    - uri:
+        prefix: /api/v1/paymentservice
+    route:
+    - destination:
+        host: ts-payment-service
+        port:
+          number: 19001
+  - match:
+    - uri:
+        prefix: /api/v1/rebookservice
+    route:
+    - destination:
+        host: ts-rebook-service
+        port:
+          number: 18886
+  - match:
+    - uri:
+        exact:  /api/v1/cancelservice
+    route:
+    - destination:
+        host: ts-cancel-service
+        port:
+          number: 18885
+  - match:
+    - uri:
+        prefix: /api/v1/routeservice
+    route:
+    - destination:
+        host: ts-route-service
+        port:
+          number: 11178
+  - match:
+    - uri:
+        prefix: /api/v1/assuranceservice
+    route:
+    - destination:
+        host: ts-assurance-service
+        port:
+          number: 18888
+  - match:
+    - uri:
+        prefix: /office/
+    route:
+    - destination:
+        host: ts-ticket-office-service
+        port:
+          number: 16108
+  - match:
+    - uri:
+        prefix: /api/v1/travelplanservice
+    route:
+    - destination:
+        host: ts-travel-plan-service
+        port:
+          number: 14322
+  - match:
+    - uri:
+        prefix: /api/v1/consignservice
+    route:
+    - destination:
+        host: ts-consign-service
+        port:
+          number: 16111
+  - match:
+    - uri:
+        prefix: /api/v1/consignpriceservice
+    route:
+    - destination:
+        host: ts-consign-price-service
+        port:
+          number: 16110
+  - match:
+    - uri:
+        exact: /getVoucher
+    route:
+    - destination:
+        host: ts-voucher-service
+        port:
+          number: 16101
+  - match:
+    - uri:
+        prefix: /api/v1/routeplanservice
+    route:
+    - destination:
+        host: ts-route-plan-service
+        port:
+          number: 14578
+  - match:
+    - uri:
+        prefix: /api/v1/foodservice
+    route:
+    - destination:
+        host: ts-food-service
+        port:
+          number: 18856
+  - match:
+    - uri:
+        prefix: /news-service/
+    route:
+    - destination:
+        host: ts-news-service
+        port:
+          number: 12862
+  - match:
+    - uri:
+        prefix: /api/v1/adminbasicservice
+    route:
+    - destination:
+        host: ts-admin-basic-info-service
+        port:
+          number: 18767
+  - match:
+    - uri:
+        prefix: /api/v1/adminorderservice
+    route:
+    - destination:
+        host: ts-admin-order-service
+        port:
+          number: 16112
+  - match:
+    - uri:
+        prefix: /api/v1/adminrouteservice
+    route:
+    - destination:
+        host: ts-admin-route-service
+        port:
+          number: 16113
+  - match:
+    - uri:
+        prefix: /api/v1/admintravelservice
+    route:
+    - destination:
+        host: ts-admin-travel-service
+        port:
+          number: 16114
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: kafka
+        port:
+          number: 16116
+  - match:
+    - uri:
+        prefix: /api/v1/adminuserservice/users
+    route:
+    - destination:
+        host: ts-admin-user-service
+        port:
+          number: 16115

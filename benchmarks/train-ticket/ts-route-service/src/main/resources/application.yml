@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: ts-route-service
+  data:
+    mongodb:
+      host: ts-route-mongo
+#      username: user
+#      password: ${MONGODB_PASSWORD}
+      database: ts
+      port: 27017
+
+# HTTP Server
+server:
+  port: 11178  # HTTP (Tomcat) port
+
+swagger:
+  controllerPackage: route.controller

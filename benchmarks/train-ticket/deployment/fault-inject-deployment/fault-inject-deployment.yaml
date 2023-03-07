@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ts-voucher-service-v2
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ts-voucher-service #do not modify for selector
+        version: v2
+    spec:
+      containers:
+      - name: ts-voucher-service-v2
+        image: kylinxiang/ts-voucher-service:f1.1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 16101

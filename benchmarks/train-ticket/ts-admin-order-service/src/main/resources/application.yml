@@ -1,0 +1,10 @@
+server:
+  port: 16112
+
+spring:
+  application:
+    name: ts-admin-order-service
+
+
+swagger:
+  controllerPackage: adminorder.controller

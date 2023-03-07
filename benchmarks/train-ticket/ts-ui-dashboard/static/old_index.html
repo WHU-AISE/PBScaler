@@ -1,0 +1,3412 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Train Ticket System</title>
+        <meta name="author" content="Chenjie Xu">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css">
+        <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript"src="js/bootstrap.js"></script>
+        <script type="text/javascript" src="js/postData.js" defer charset="utf-8"></script>
+        <script type="text/javascript" src="js/securityCheck.js" defer charset="utf-8"></script>
+        <script type="text/javascript" src="js/executeTicket.js" defer charset="utf-8"></script>
+        <script type="text/javascript" src="js/basicInformation.js" defer charset="utf-8"></script>
+        <script type="text/javascript" src="js/config.js" defer charset="utf-8"></script>
+        <script type="text/javascript" src="js/contacts.js" defer charset="utf-8"></script>
+        <script type="text/javascript" src="js/executeTicket.js" defer charset="utf-8"></script>
+        <script type="text/javascript" src="js/login.js" defer charset="utf-8"></script>
+        <script type="text/javascript" src="js/notification.js" defer charset="utf-8"></script>
+        <script type="text/javascript" src="js/price.js" defer charset="utf-8"></script>
+        <script type="text/javascript" src="js/register.js" defer charset="utf-8"></script>
+        <script type="text/javascript" src="js/sso.js" defer charset="utf-8"></script>
+        <script type="text/javascript" src="js/station.js" defer charset="utf-8"></script>
+        <script type="text/javascript" src="js/ticketInformation.js" defer charset="utf-8"></script>
+        <script type="text/javascript" src="js/train.js" defer charset="utf-8"></script>
+        <script type="text/javascript" src="js/travel.js" defer charset="utf-8"></script>
+        <script type="text/javascript" src="js/insidePayment.js" defer charset="utf-8"></script>
+        <script type="text/javascript" src="js/payment.js" defer charset="utf-8"></script>
+        <script type="text/javascript" src="js/orderCancel.js" defer charset="utf-8"></script>
+        <script type="text/javascript" src="js/orderRebook.js" defer charset="utf-8"></script>
+        <script type="text/javascript" src="js/flowPreserve.js" defer charset="utf-8"></script>
+        <script type="text/javascript" src="js/flowRebook.js" defer charset="utf-8"></script>
+        <script type="text/javascript" src="js/order.js" defer charset="utf-8"></script>
+        <script type="text/javascript" src="js/route.js" defer charset="utf-8"></script>
+        <script type="text/javascript" src="js/assurance.js" defer charset="utf-8"></script>
+        <script type="text/javascript" src="js/ticketOffice.js" defer charset="utf-8"></script>
+        <script type="text/javascript" src="js/travelTransit.js" defer charset="utf-8"></script>
+        <script type="text/javascript" src="js/routePlan.js" defer charset="utf-8"></script>
+        <script type="text/javascript" src="js/food.js" defer charset="UTF-8"></script>
+        <script type="text/javascript" src="js/myflow.js" defer charset="UTF-8"></script>
+        <script type="text/javascript" src="js/flowAdvancedSearch.js" defer charset="UTF-8"></script>
+        <script type="text/javascript" src="js/news.js" defer charset="UTF-8"></script>
+    </head>
+    <body onload="onLoadBody()">
+    <div class="container">
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Train Ticket System</a>
+                </div>
+                <div>
+                    <ul class="nav navbar-nav">
+                        <li><a id="microservice_page">Single Microservice Test</a></li>
+                        <li><a id="flow_one_page">Flow One - Ticket Reserve</a></li>
+                        <li><a id="flow_two_page">Flow Two - Ticket Cancel & Ticket Change</a></li>
+                        <li><a id="flow_three_page">Flow Three - Consign & Voucher</a></li>
+                        <li><a id="flow_four_page">Flow Four - Advanced Search</a>
+                        <li><a href="adminlogin.html">Admin Management</a></li>
+                        <li><a href="index.html">Booking System - dashboard</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!--------------Login Information--------------->
+        <div id="status_set" class="">
+            <ul class="list-group">
+                <li class="list-group-item">Login User ID：
+                    <label id="user_login_id">Not Login</label>
+                    <button id="logout_button" type="button" class="btn btn-primary">Logout</button>
+                </li>
+            </ul>
+        </div>
+
+        <div id="microservices">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        News
+                        <button id="refresh_news_button" type="button" class="btn btn-default btn-sm">List All</button>
+                    </h3>
+                </div>
+                <div id="news_div" class="panel panel-default">
+
+                </div>
+
+            </div>
+
+            <!----------------------------Cheapest Route----------------------------------->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Search Cheapest Route.
+                    </h3>
+                </div>
+                <div class="input-box panel-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Starting Place:</label>
+                            <div class="col-sm-10">
+                                <input id="travel_cheapest_route_fromPlace" class="form-control" name='' value='Shang Hai'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Terminal Place:</label>
+                            <div class="col-sm-10">
+                                <input id="travel_cheapest_route_toPlace" class="form-control" name='' value='Su Zhou'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Date:</label>
+                            <div class="col-sm-10">
+                                <input id="travel_cheapest_route_date" class="form-control" type="date" name='' value='' min="2017-07-13">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button id="travel_cheapest_route_button" type="button" class="btn btn-primary">Search</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="panel-heading booking">
+                    <h3 class="panel-title">
+                        Tickets Searching Result
+                    </h3>
+                </div>
+                <div class="panel-body booking">
+                    <table id="tickets_cheapest_route_table" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Trip Id</th>
+                            <th>Train Type Id</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Starting Time</th>
+                            <th>End Time</th>
+                            <th>Price</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!--This is an empty table body-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!----------------------------Quickest Route ----------------------------------->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Search Quickest Route.
+                    </h3>
+                </div>
+                <div class="input-box panel-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Starting Place:</label>
+                            <div class="col-sm-10">
+                                <input id="travel_quickest_route_fromPlace" class="form-control" name='' value='上海'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Terminal Place:</label>
+                            <div class="col-sm-10">
+                                <input id="travel_quickest_route_toPlace" class="form-control" name='' value='苏州'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Date:</label>
+                            <div class="col-sm-10">
+                                <input id="travel_quickest_route_date" class="form-control" type="date" name='' value='' min="2017-07-13">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button id="travel_quickest_route_button" type="button" class="btn btn-primary">Search</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="panel-heading booking">
+                    <h3 class="panel-title">
+                        Tickets Searching Result
+                    </h3>
+                </div>
+                <div class="panel-body booking">
+                    <table id="tickets_quickest_route_table" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Trip Id</th>
+                            <th>Train Type Id</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Starting Time</th>
+                            <th>End Time</th>
+                            <th>Price</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!--This is an empty table body-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!----------------------------Min Stop Station----------------------------------->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Search min stop station.
+                    </h3>
+                </div>
+                <div class="input-box panel-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Starting Place:</label>
+                            <div class="col-sm-10">
+                                <input id="travel_min_stop_fromPlace" class="form-control" name='' value='上海'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Terminal Place:</label>
+                            <div class="col-sm-10">
+                                <input id="travel_min_stop_toPlace" class="form-control" name='' value='苏州'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Date:</label>
+                            <div class="col-sm-10">
+                                <input id="travel_min_stop_date" class="form-control" type="date" name='' value='' min="2017-07-13">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button id="travel_min_stop_button" type="button" class="btn btn-primary">Search</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="panel-heading booking">
+                    <h3 class="panel-title">
+                        Tickets Searching Result
+                    </h3>
+                </div>
+                <div class="panel-body booking">
+                    <table id="tickets_min_stop_table" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Trip Id</th>
+                            <th>Train Type Id</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Starting Time</th>
+                            <th>End Time</th>
+                            <th>Price</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!--This is an empty table body-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!----------------------------Food Order----------------------------------->
+            <div class="step panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Food Order List
+                        <label id="food_order_list_status" class="noshow_component"></label>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <form role="form">
+                        <button id="query_food_order_button" type="button" class="btn btn-primary">
+                            Query
+                        </button>
+                    </form>
+
+                    <table id="food_order_list_table" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>ID</th>
+                            <th>Order ID</th>
+                            <th>Food Type</th>
+                            <th>Station Name</th>
+                            <th>Store Name</th>
+                            <th>Food Name</th>
+                            <th>Food Price</th>
+                            <th class="noshow_component"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!----An empty table----->
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+            <!----------------------------Food----------------------------------->
+            <div class="step panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Food List
+                        <label id="food_list_status" class="noshow_component"></label>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <form role="form">
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">Date:</label>
+                            <div class="col-sm-2">
+                                <input id="food_date" name="office_province" class="form-control" type="date"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">Starting Station:</label>
+                            <div class="col-sm-1">
+                                <input id="food_start_station" name="food_stat_station" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">Arrival Station:</label>
+                            <div class="col-sm-1">
+                                <input id="food_end_station"  name="food_end_station" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">Train Number:</label>
+                            <div class="col-sm-2">
+                                <input id="food_trip_id"  name="food_end_station" class="form-control" value="G1234" />
+                            </div>
+                        </div>
+                        <button id="query_food_button" type="button" class="btn btn-primary">
+                            Query
+                        </button>
+                    </form>
+
+                    <table id="train_food_list_table" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Trip ID</th>
+                            <th>Food Name</th>
+                            <th>Price</th>
+                            <th class="noshow_component"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!----An empty table----->
+                        </tbody>
+                    </table>
+
+                    <div class="panel">
+                        <div class="panel-heading">stationID</div>
+                        <select id="food_station_select" name="food_station_select" class="form-control" onchange="changeFoodStation()">
+
+                        </select>
+                        <table id="food_stores_of_station_list" class="table table-striped">
+                            <thead>
+                                <th>No.</th>
+                                <th>Store Name</th>
+                                <th>Telephone</th>
+                                <th>Business Time</th>
+                                <th>Delivery Fee</th>
+                                <th>Operation</th>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        <table id="food_of_store" class="table table-striped">
+                            <thead>
+                                <th>No.</th>
+                                <th>Food Name</th>
+                                <th>Price</th>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!----------------------Flow Transit -------------->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Transit Inquiry
+                    </h3>
+                </div>
+                <div class="input-box panel-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Starting Station:</label>
+                            <div class="col-sm-10">
+                                <input id="transit_start_station" class="form-control" name='' value='Nan Jing'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Transit Station:</label>
+                            <div class="col-sm-10">
+                                <input id="transit_middle_station" class="form-control" name='' value='Su Zhou'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Arrival Station:</label>
+                            <div class="col-sm-10">
+                                <input id="transit_end_station" class="form-control" name='' value='Shang Hai'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Departure Date:</label>
+                            <div class="col-sm-10">
+                                <input id="transit_end_station_date" class="form-control" type="date" name='' value='' min="2017-07-13">
+                            </div>
+                        </div>
+                        <!--<div class="form-group">-->
+                            <!--<label class="col-sm-2 control-label">Train Type:</label>-->
+                            <!--<div class="col-sm-10">-->
+                                <!--<select id="search_select_train_type" class="form-control" name="train_type">-->
+                                    <!--<option value="0">All</option>-->
+                                    <!--<option value="1" selected = "selected">GaoTie DongChe</option>-->
+                                    <!--<option value="2">Others</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button id="transit_search_button" type="button" class="btn btn-primary">Search</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="panel-heading booking">
+                    <h3 class="panel-title">
+                        Tickets Searching Result
+                    </h3>
+                </div>
+                <div class="panel-body booking">
+                    <table id="transit_search_list_table_first_section_table" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Trip Id</th>
+                            <th>Train Type Id</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Starting Time</th>
+                            <th>Arrival Time</th>
+                            <th>2rd Class Seat Number</th>
+                            <th>1st Class Seat Number</th>
+                            <th>Select Seat</th>
+                            <!--<th>Operation</th>-->
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!--This is an empty table body-->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel-body booking">
+                    <table id="transit_search_list_table_second_section_table" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Trip Id</th>
+                            <th>Train Type Id</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Starting Time</th>
+                            <th>Arrival Time</th>
+                            <th>2rd Class Seat Number</th>
+                            <th>1st Class Seat Number</th>
+                            <th>Select Seat</th>
+                            <!--<th>Operation</th>-->
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!--This is an empty table body-->
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <!----------------------------ticket office----------------------------------->
+            <div class="step panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Ticket Office List
+                        <label id="office_list_status" class="noshow_component"></label>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <form role="form">
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">Province:</label>
+                            <div class="col-sm-2">
+                                <select id="office_province" name="office_province" class="form-control" onchange="changeProvince()">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">City:</label>
+                            <div class="col-sm-2">
+                                <select id="office_city" name="office_city" class="form-control" onchange="changeCity()">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">Region:</label>
+                            <div class="col-sm-2">
+                                <select id="office_region" name="office_city" class="form-control" onchange="changeRegion()">
+                                </select>
+                            </div>
+                        </div>
+                        <button id="query_office_button" type="button" class="btn btn-primary">
+                            Query
+                        </button>
+                    </form>
+
+                    <table id="office_list_table" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Office Name</th>
+                            <th>Address</th>
+                            <th>WorkTime</th>
+                            <th>WindowNum</th>
+                            <th>Operation</th>
+                            <th class="noshow_component"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!----An empty table----->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!----------------------------Assurance----------------------------------->
+            <div class="step panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Assurance List
+                        <button id="refresh_assurance_button" type="button" class="btn btn-default btn-sm">List All</button>
+                        <label id="assurance_list_status" class="noshow_component"></label>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <table id="assurance_list_table" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>ID</th>
+                            <th>Order ID</th>
+                            <th>Type Index</th>
+                            <th>Type Name</th>
+                            <th>Type Price</th>
+                            <th>Operation</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!----An empty table----->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel-heading">
+                    <h3 class="panel-title">Add Assurance</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="input-box">
+                        <form role="form" class="form-horizontal">
+                            <!--<div class="form-group">-->
+                            <!--<label class="col-sm-2 control-label">Assurance Order Id:</label>-->
+                            <!--<div class="col-sm-10">-->
+                            <!--<input id="assurance_order_id" class="form-control" value=''>-->
+                            <!--</div>-->
+                            <!--</div>-->
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Assurance Type Index:</label>
+                                <div class="col-sm-10">
+                                    <input id="assurance_type_index" class="form-control" value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button id="create_assurance_button" type="button" class="btn btn-primary">
+                                        Add
+                                    </button>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2">
+                                    <label class="control-label">Message:</label>
+                                    <span id="create_assurance_create_message"></span>
+                                    <span id="create_assurance_status" class="noshow_component"></span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!----------------------------Route----------------------------------->
+            <div class="step panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Routes List
+                        <button id="refresh_route_button" type="button" class="btn btn-default btn-sm">List All</button>
+                        <label id="route_list_status" class="noshow_component"></label>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <table id="route_list_table" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <!--<th>ID</th>-->
+                                <th>From ID</th>
+                                <th>End ID</th>
+                                <th>Pass By</th>
+                                <th>Distance</th>
+                                <th>Operation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!----An empty table----->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel-heading">
+                    <h3 class="panel-title">Add Route</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="input-box">
+                        <form role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Start Station Id:</label>
+                                <div class="col-sm-10">
+                                    <input id="route_start_id" class="form-control" value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Terminal Station Id:</label>
+                                <div class="col-sm-10">
+                                    <input id="route_terminal_id" class="form-control" value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Pass By Station Id(divide by ','):</label>
+                                <div class="col-sm-10">
+                                    <input id="route_pass_station_id" class="form-control" value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Pass By Distance Id(divide by ','):</label>
+                                <div class="col-sm-10">
+                                    <input id="route_pass_distance_id" class="form-control" value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button id="create_route_button" type="button" class="btn btn-primary">
+                                        Add
+                                    </button>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2">
+                                    <label class="control-label">Message:</label>
+                                    <span id="create_route_create_message"></span>
+                                    <span id="create_route_status" class="noshow_component"></span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!----------------------------------SSO------------------------------->
+            <div class="step panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        SSO Account List
+                        <button id="refresh_account_button" type="button" class="btn btn-default btn-sm">Refresh Accounts</button>
+                        <label id="account_list_status" class="noshow_component"></label>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <table id="account_list_table" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>ID</th>
+                            <th>Email</th>
+                            <th>Password</th>
+                            <th>Operation</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <!----An empty table----->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        SSO Login Account List
+                        <button id="refresh_login_account_button" type="button" class="btn btn-default btn-sm">Refresh Login Accounts</button>
+                        <label id="login_list_status" class="noshow_component"></label>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <table id="login_account_list_table" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>ID</th>
+                            <th>Token</th>
+                            <th>Operation</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <!----An empty table----->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-------------------------------Security----------------------------->
+            <div class="step panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Security Config List
+                        <button id="refresh_security_config_button" type="button" class="btn btn-default btn-sm">Refresh Security Config</button>
+                        <label id="security_list_status" class="noshow_component"></label>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <table id="security_config_list_table" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Name</th>
+                            <th>Value</th>
+                            <th>Description</th>
+                            <th>Operation</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!----An empty table----->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Security Check
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="input-box">
+                        <form role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Account Id:</label>
+                                <div class="col-sm-10">
+                                    <input id="security_check_account_id" class="form-control" value='4d2a46c7-71cb-4cf1-b5bb-b68406d9da6f'>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button id="security_check_button" type="button" class="btn btn-primary">Check</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2">
+                                    <label class="control-label">Check Message:</label>
+                                    <span id="security_check_message"></span>
+                                    <span id="security_check_status" class="noshow_component"></span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!----------------------------------Execute--------------------------->
+            <div class="step panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Ticket Execute
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="input-box">
+                        <form role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Order Id:</label>
+                                <div class="col-sm-10">
+                                    <input id="execute_order_id" class="form-control" value='5ad7750b-a68b-49c0-a8c0-32776b067703'>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button id="execute_order_button" type="button" class="btn btn-primary">Check</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2">
+                                    <label class="control-label">Check Status:</label>
+                                    <span id="execute_order_message"></span>
+                                    <span id="execute_order_status" class="noshow_component"></span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!------------------------------------Orders------------------------->
+            <div class="step panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Order Service
+                        <input class='order_type' name="order_type" type="checkbox" value="1" />High Speed Train
+                        <input class='order_type' name="order_type" type="checkbox" value="2" />Normal Train
+                        <button id="refresh_order_button" type="button" class="btn btn-default btn-sm">Refresh Orders</button>
+                        <label id="order_list_status" class="noshow_component"></label>
+                    </h3>
+                </div>
+                <div class="group panel-body">
+                    <table id="all_order_table" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Order Id</th>
+                            <th>Train Number</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Travel Date</th>
+                            <th>Status</th>
+                            <th>Operation</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!----An empty table----->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!----------------------------------Rebook--------------------------->
+            <div class="step panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Ticket Rebook
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="input-box">
+                        <form role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Order Id:</label>
+                                <div class="col-sm-10">
+                                    <input id="single_rebook_order_id" class="form-control" value='8177ac5a-61ac-42f4-83f4-bd7b394d0531'>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Old Trip Id:</label>
+                                <div class="col-sm-10">
+                                    <input id="single_rebook_old_trip_id" class="form-control" value='G1234'>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">New Trip Id:</label>
+                                <div class="col-sm-10">
+                                    <input id="single_rebook_trip_id" class="form-control" value='G1235'>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Seat Type:</label>
+                                <div class="col-sm-10">
+                                    <select id="single_rebook_seat_type" class="form-control">
+                                        <option value="2">Confort Seat</option>
+                                        <option value="3" selected="selected">Economy Seat</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">New Date:</label>
+                                <div class="col-sm-10">
+                                    <input id="single_rebook_date" class="form-control" type="date" name='' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button id="single_rebook_button" type="button" class="btn btn-primary">Rebook</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2">
+                                    <label class="control-label">Rebook Result:</label>
+                                    <span id="single_rebook_result"></span>
+                                    <span id="single_rebook_status" class="noshow_component"></span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="input-box">
+                        <form role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Price:</label>
+                                <div class="col-sm-10">
+                                    <input id="rebook_price" class="form-control" name='price' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button id="rebook_pay_button" type="button" class="btn btn-primary">Pay</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2">
+                                    <label class="control-label">Rebook Result:</label>
+                                    <span id="rebook_payment_result"></span>
+                                    <label id="rebook_pay_status" class="noshow_component"></label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!----------------------------------Cancel--------------------------->
+            <div class="step panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Ticket Cancel
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="input-box">
+                        <form role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Order Id:</label>
+                                <div class="col-sm-10">
+                                    <input id="single_cancel_order_id" class="form-control" value='5ad7750b-a68b-49c0-a8c0-32776b067703'>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button id="single_cancel_refund_button" type="button" class="btn btn-primary">Check Refund</button>
+                                    <button id="single_cancel_button" type="button" class="btn btn-primary">Do Cancel</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2">
+                                    <label class="control-label">Cancel Status:</label>
+                                    <span id="single_cancel_order_result"></span>
+                                    <label id="single_cancel_order_status" class="noshow_component"></label>
+                                    <label class="control-label">Check Refund:</label>
+                                    <span id="single_cancel_refund_result"></span>
+                                    <label id="single_cancel_refund_status" class="noshow_component"></label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!----------------------------------Collect--------------------------->
+            <div class="step panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Ticket Collect
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="input-box">
+                        <form role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Order Id:</label>
+                                <div class="col-sm-10">
+                                    <input id="single_collect_order_id" class="form-control" value='5ad7750b-a68b-49c0-a8c0-32776b067703'>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button id="single_collect_button" type="button" class="btn btn-primary">Collect Tickets</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2">
+                                    <label class="control-label">Collect Status:</label>
+                                    <span id="single_collect_order_result"></span>
+                                    <label id="single_collect_order_status" class="noshow_component"></label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!------------------------------------Register------------------------>
+            <div class="step panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Sign Up
+                    </h3>
+                </div>
+                <div class="group panel-body">
+                    <div class="input-box">
+                        <form role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Email:</label>
+                                <div class="col-sm-10">
+                                    <input id="register_email" class="form-control" name='phoneNum' value='chaojifudan@outlook.com'>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Set Your Password: </label>
+                                <div class="col-sm-10">
+                                    <input id="register_password" class="form-control" name='password' value='DefaultPassword'>
+                                </div>
+                            </div>
+                            <div class="form-group noshow_component">
+                                <label class="col-sm-2 control-label">Select Your Gender: </label>
+                                <div class="col-sm-10">
+                                    <select id="register_gender" class="form-control" name="gender">
+                                        <option value="1" selected = "selected">Male</option>
+                                        <option value="2">Female</option>
+                                        <option value="3">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group noshow_component">
+                                <label class="col-sm-2 control-label">Input Your Real Name: </label>
+                                <div class="col-sm-10">
+                                    <input id="register_name" class="form-control" name='name' value='Default User'>
+                                </div>
+                            </div>
+                            <div class="form-group noshow_component">
+                                <label class="col-sm-2 control-label">Select Your Document Type: </label>
+                                <div class="col-sm-10">
+                                    <select id="register_documentType" class="form-control" name="documentType">
+                                        <option value="1" selected = "selected">ID Card</option>
+                                        <option value="2">Passport</option>
+                                        <option value="3">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group noshow_component">
+                                <label class="col-sm-2 control-label">Input your Document Num: </label>
+                                <div class="col-sm-10">
+                                    <input id="register_documentNum" class="form-control" name='documentNum' value='DefaultDocumentNumber'>
+                                </div>
+                            </div>
+
+                            <div class="form-group noshow_component">
+                                <label class="col-sm-2 control-label">Verification Code: </label>
+                                <div class="col-sm-10">
+                                    <input id="register_verificationCode" class="form-control"  name="verificationCode" value="abcd">
+                                </div>
+                            </div>
+                            <div class="form-group noshow_component">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <img id="captchaImgRegister" class="captcha_img" alt="Click To Refresh The Verification Code"
+                                         src="/api/v1/verifycode/generate">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button id="register_button" type="button" class="btn btn-primary">Sign Up</button>
+                                </div>
+                            </div>
+                            <div class="form-group  noshow_component">
+                                <div class="col-sm-offset-2">
+                                    <label class="control-label">Register Status:</label>
+                                    <span id="register_result_status"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2">
+                                    <label class="control-label">Register Message:</label>
+                                    <span id="register_result_msg"></span>
+                                </div>
+                            </div>
+                            <div class="form-group noshow_component">
+                                <div class="col-sm-offset-2">
+                                    <label class="control-label">Account Info:</label>
+                                    <span id="register_result_account"></span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!------------------------------------Login -------------------------->
+            <div class="step panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Sign In
+                    </h3>
+                </div>
+                <div class="group panel-body">
+                    <div class="input-box">
+                        <form role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">You Email: </label>
+                                <div class="col-sm-10">
+                                    <input id="login_email" class="form-control" name='phoneNum' value='fdse_microservices@163.com'>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Your Password: </label>
+                                <div class="col-sm-10">
+                                    <input id="login_password" class="form-control" name='password' value='DefaultPassword' >
+                                </div>
+                            </div>
+                            <div class="form-group noshow_component">
+                                <label class="col-sm-2 control-label">Verification Code</label>
+                                <div class="col-sm-10">
+                                    <input id="login_verification_code" class="form-control" type="text" id="verificationCodeLogin" name="verificationCode" value="abcd"/>
+                                </div>
+                            </div >
+                            <div class="form-group noshow_component">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <img id="captchaImgLogin" class="captcha_img" alt="Click To Refresh The Verification Code"
+                                         src="/api/v1/verifycode/generate">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button id="login_button" type="button" class="btn btn-primary">Sign In</button>
+                                </div>
+                            </div>
+                            <div class="form-group noshow_component">
+                                <div class="col-sm-offset-2">
+                                    <label class="control-label">Login Status:</label>
+                                    <span id="login_result_status"></span>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <div class="col-sm-offset-2">
+                                    <label class="control-label">Login Message:</label>
+                                    <span id="login_result_msg"></span>
+                                </div>
+                            </div>
+                            <div class="form-group noshow_component">
+                                <div class="col-sm-offset-2">
+                                    <label class="control-label">Account Info:</label>
+                                    <span id="login_result_account"></span>
+                                </div>
+                            </div>
+                            <div class="form-group noshow_component">
+                                <div class="col-sm-offset-2">
+                                    <label class="control-label">Account Login Token:</label>
+                                    <span id="login_result_token"></span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <br>
+                </div>
+            </div>
+
+            <!------------------------------------Contacts------------------------>
+            <div class="step panel panel-default">
+                <div class="panel-heading noshow_component">
+                    <h3 class="panel-title">
+                        Add Contacts
+                    </h3>
+                </div>
+                <div class="group panel-body noshow_component">
+                    <div class="input-box">
+                        <form role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">People Name:</label>
+                                <div class="col-sm-10">
+                                    <input id="add_contacts_name" class="form-control" name='name' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Select Your Document Type: </label>
+                                <div class="col-sm-10">
+                                    <select id="add_contacts_documentType" class="form-control" name="documentType">
+                                        <option value="1">ID Card</option>
+                                        <option value="2">Passport</option>
+                                        <option value="3">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Document Number:</label>
+                                <div class="col-sm-10">
+                                    <input id="add_contacts_documentNum" class="form-control" name='documentNumber' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Phone Number:</label>
+                                <div class="col-sm-10">
+                                    <input id="add_contacts_phoneNum" class="form-control" name='phoneNumber' value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button id="add_contacts_button" type="button" class="btn btn-primary">Add Contacts</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2">
+                                    <label class="control-label">Add Contacts Status:</label>
+                                    <span id="add_contacts_result_status"></span>
+                                </div>
+                            </div>
+                            <div class="form-group noshow_component" >
+                                <div class="col-sm-offset-2">
+                                    <label class="control-label">Add Contacts Message:</label>
+                                    <span id="add_contacts_result_msg"></span>
+                                </div>
+                            </div>
+                            <div class="form-group noshow_component">
+                                <div class="col-sm-offset-2">
+                                    <label class="control-label">Contacts Info:</label>
+                                    <span id="add_contacts_result_contacts"></span>
+                                    <label id="single_add_contacts_status" class="noshow_component"></label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Your Contacts List
+                        <button id="refresh_contacts_button" type="button" class="btn btn-default btn-sm">Refresh Contacts</button>
+                        <label id="single_list_contacts_status" class="noshow_component"></label>
+                    </h3>
+                </div>
+                <div class="group panel-body">
+                    <table id="contacts_list_table" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Account Id</th>
+                            <th>Name</th>
+                            <th>Document Type</th>
+                            <th>Document Number</th>
+                            <th>Phone Number</th>
+                            <th>Operation</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <!----An empty table----->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!------------------------------------Travel--------------------------->
+            <div class="step panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Travel Service
+                    </h3>
+                </div>
+                <div class="input-box panel-body">
+                    <form role="form" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Trip Id(e.g.G1234): </label>
+                            <div class="col-sm-10">
+                                <input id="travel_update_tripId" class="form-control" name='tripId'
+                                       value='G1234'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">TrainType ID: </label>
+                            <div class="col-sm-10">
+                                <input id="travel_update_trainTypeId" class="form-control" name='trainTypeId'
+                                       value='GaoTieOne'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Route ID: </label>
+                            <div class="col-sm-10">
+                                <input id="travel_update_routeId" class="form-control" value=''>
+                            </div>
+                        </div>
+                        <div class="form-group noshow_component">
+                            <label class="col-sm-2 control-label">startingStation Id: </label>
+                            <div class="col-sm-10">
+                                <input id="travel_update_startingStationId" class="form-control" name='startingStationId'
+                                       value='shanghai'>
+                            </div>
+                        </div>
+                        <div class="form-group form-group noshow_component">
+                            <label class="col-sm-2 control-label">Station Id: </label>
+                            <div class="col-sm-10">
+                                <input id="travel_update_stationsId" class="form-control" name='stationsId'
+                                       value='beijing'>
+                            </div>
+                        </div>
+                        <div class="form-group form-group noshow_component">
+                            <label class="col-sm-2 control-label">TerminalStation Id: </label>
+                            <div class="col-sm-10">
+                                <input id="travel_update_terminalStationId" class="form-control" name='terminalStationId'
+                                       value='taiyuan'>
+                            </div>
+                        </div>
+                        <div class="form-group form-group noshow_component">
+                            <label class="col-sm-2 control-label">StartingTime: </label>
+                            <div class="col-sm-10">
+                                <input id="travel_update_startingTime" type="time" class="form-control"
+                                       name='startingTime' value='11:17'>
+                            </div>
+                        </div>
+                        <div class="form-group form-group noshow_component">
+                            <label class="col-sm-2 control-label">EndTime: </label>
+                            <div class="col-sm-10">
+                                <input id="travel_update_endTime" type="time" class="form-control"
+                                       name='endTime' value='15:29'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button id="travel_update_button" type="button" class="btn btn-primary">Update Trip</button>
+                                <label id="single_travel_update_status" class="noshow_component"></label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Train List
+                        <button id="travel_queryAll_button" type="button" class="btn btn-default btn-sm">Query Travel</button>
+                        <label id="single_list_travel_status" class="noshow_component"></label>
+                    </h3>
+                </div>
+                <div class="result panel-body">
+                    <table id="query_travel_list_table" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Trip Id</th>
+                            <th>Train Type</th>
+                            <th>Route Id</th>
+                            <th class="noshow_component">Starting Station Id</th>
+                            <th class="noshow_component">Middle Station Id</th>
+                            <th class="noshow_component">Terminal Station Id</th>
+                            <th class="noshow_component">Starting Time</th>
+                            <th class="noshow_component">End Time</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!--This is an empty table body-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-------------------------------------Travel2------------------------->
+            <div class="step panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Travel2 Service
+                    </h3>
+                </div>
+                <div class="input-box panel-body">
+                    <form role="form" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Trip Id(e.g.Z1234): </label>
+                            <div class="col-sm-10">
+                                <input id="travel2_update_tripId" class="form-control" name='tripId'
+                                       value='Z1234'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">TrainType ID: </label>
+                            <div class="col-sm-10">
+                                <input id="travel2_update_trainTypeId" class="form-control" name='trainTypeId'
+                                       value='ZhiDa'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Route ID: </label>
+                            <div class="col-sm-10">
+                                <input id="travel2_update_routeId" class="form-control" value=''>
+                            </div>
+                        </div>
+                        <div class="form-group form-group noshow_component">
+                            <label class="col-sm-2 control-label">startingStation Id: </label>
+                            <div class="col-sm-10">
+                                <input id="travel2_update_startingStationId" class="form-control" name='startingStationId'
+                                       value='shanghai'>
+                            </div>
+                        </div>
+                        <div class="form-group form-group noshow_component">
+                            <label class="col-sm-2 control-label">Station Id: </label>
+                            <div class="col-sm-10">
+                                <input id="travel2_update_stationsId" class="form-control" name='stationsId'
+                                       value='beijing'>
+                            </div>
+                        </div>
+                        <div class="form-group form-group noshow_component">
+                            <label class="col-sm-2 control-label">TerminalStation Id: </label>
+                            <div class="col-sm-10">
+                                <input id="travel2_update_terminalStationId" class="form-control" name='terminalStationId'
+                                       value='taiyuan'>
+                            </div>
+                        </div>
+                        <div class="form-group form-group noshow_component">
+                            <label class="col-sm-2 control-label">StartingTime: </label>
+                            <div class="col-sm-10">
+                                <input id="travel2_update_startingTime" type="time" class="form-control"
+                                       name='startingTime' value='11:17'>
+                            </div>
+                        </div>
+                        <div class="form-group form-group noshow_component">
+                            <label class="col-sm-2 control-label">EndTime: </label>
+                            <div class="col-sm-10">
+                                <input id="travel2_update_endTime" type="time" class="form-control"
+                                       name='endTime' value='15:19'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button id="travel2_update_button" type="button" class="btn btn-primary">Update Trip</button>
+                                <label id="single_travel_other_update_status" class="noshow_component"></label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Train List
+                        <button id="travel2_queryAll_button" type="button" class="btn btn-default btn-sm">Query Travel2</button>
+                        <label id="single_travel_other_query_status" class="noshow_component"></label>
+                    </h3>
+                </div>
+                <div class="result panel-body">
+                    <table id="query_travel2_list_table" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Trip Id</th>
+                            <th>Train Type</th>
+                            <th>Route Id</th>
+                            <th class="noshow_component">Starting Station Id</th>
+                            <th class="noshow_component">Middle Station Id</th>
+                            <th class="noshow_component">Terminal Station Id</th>
+                            <th class="noshow_component">Starting Time</th>
+                            <th class="noshow_component">End Time</th>
+                        </tr>
+                        </thead>
+                        <tbody id="query_travel2_list_table_result">
+                        <!--This is an empty table body-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!------------------------------------Station-------------------------->
+            <div class="step panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Station Service
+                    </h3>
+                </div>
+
+                    <div class="input-box panel-body">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Station Id: </label>
+                                <div class="col-sm-10">
+                                    <input id="station_update_id" class="form-control" name='id' value='shanghai'>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Station Name: </label>
+                                <div class="col-sm-10">
+                                    <input id="station_update_name" class="form-control" name='name' value='shang hai'>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Stay Time: </label>
+                                <div class="col-sm-10">
+                                    <input id="station_update_stayTime" class="form-control" type='number' value='shang hai'>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button id="station_update_button" type="button" class="btn btn-primary">Update Station</button>
+                                    <label id="station_update_status" class="noshow_component"></label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Station List
+                            <button id="station_query_button" type="button" class="btn btn-default btn-sm">Query Station</button>
+                            <label id="single_list_station_status" class="noshow_component"></label>
+                        </h3>
+                    </div>
+                    <div class="result panel-body">
+                        <table id="query_station_list_table" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Station Id</th>
+                                <th>Station Name</th>
+                                <th>Stay Time</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!--This is an empty table body-->
+                            </tbody>
+                        </table>
+                    </div>
+
+            </div>
+
+            <!------------------------------------Train---------------------------->
+            <div class="step panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Train Service
+                    </h3>
+                </div>
+                <div class="input-box panel-body">
+                    <form role="form" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Train Id: </label>
+                            <div class="col-sm-10">
+                                <input id="train_update_id" class="form-control" name='id'
+                                       value='GaoTieOne'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Economy Class: </label>
+                            <div class="col-sm-10">
+                                <input id="train_update_economyClass" class="form-control" name='economyClass'
+                                       value='120' type='number'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Confort Class: </label>
+                            <div class="col-sm-10">
+                                <input id="train_update_confortClass" class="form-control" name='confortClass'
+                                       value='60' type='number'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Average Speed: </label>
+                            <div class="col-sm-10">
+                                <input id="train_update_averageSpeed" class="form-control"
+                                       value='120' type='number'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button id="train_update_button" type="button" class="btn btn-primary">Update Train Type</button>
+                                <label id="single_update_train_status" class="noshow_component"></label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Train List
+                        <button id="train_query_button" type="button" class="btn btn-default btn-sm">Query Train Type</button>
+                        <label id="single_list_train_status" class="noshow_component"></label>
+                    </h3>
+                </div>
+                <div class="result panel-body">
+                    <table id="query_train_list_table" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Train Id</th>
+                            <th>First Class Seat Number</th>
+                            <th>Second Class Seat Number</th>
+                            <th>Average Speed(km/h)</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!--This is an empty table body-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!------------------------------------Config--------------------------->
+            <div class="step panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Config Service
+                    </h3>
+                </div>
+                <div class="input-box panel-body">
+                    <form role="form" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Config name: </label>
+                            <div class="col-sm-10">
+                                <input id="config_update_name" class="form-control" name='name'
+                                       value='DirectTicketAllocationProportion'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Config value: </label>
+                            <div class="col-sm-10">
+                                <input id="config_update_value" class="form-control" name='value'
+                                       value='50%'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Description: </label>
+                            <div class="col-sm-10">
+                                <input id="config_update_description" class="form-control" name='description' value=''>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button id="config_update_button" type="button" class="btn btn-primary">Update Config</button>
+                                <label id="single_update_config_status" class="noshow_component"></label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Config List
+                        <button id="config_query_button" type="button" class="btn btn-default btn-sm">Query Config</button>
+                        <label id="single_list_config_status" class="noshow_component"></label>
+                    </h3>
+                </div>
+                <div class="result panel-body">
+                    <table id="query_config_list_table" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Config Name</th>
+                            <th>Config Value</th>
+                            <th>Config Description</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!--This is an empty table body-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-------------------------------------Price--------------------------->
+            <div class="step panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Price Service
+                    </h3>
+                </div>
+                <div class="input-box panel-body">
+                    <form role="form" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Route Id: </label>
+                            <div class="col-sm-10">
+                                <input id="price_create_routeId" class="form-control" value=''>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Train Type: </label>
+                            <div class="col-sm-10">
+                                <input id="price_create_trainType" class="form-control" value=''>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Basic Price Rate:</label>
+                            <div class="col-sm-10">
+                                <input id="price_create_basicPriceRate" class="form-control" name='distance'
+                                       value='0.5'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">First Class Price Rate:</label>
+                            <div class="col-sm-10">
+                                <input id="price_create_firstClassPriceRate" class="form-control" name='distance'
+                                       value='0.5'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button id="price_create_button" type="button" class="btn btn-primary">Add Price Config</button>
+                                <label id="single_create_price_status" class="noshow_component"></label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Price List
+                        <button id="price_queryAll_button" type="button" class="btn btn-default btn-sm">Query Price</button>
+                        <label id="single_list_price_status" class="noshow_component"></label>
+                    </h3>
+                </div>
+                <div class="result panel-body" id="price_result_talbe">
+                    <table id="query_price_list_table" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>ID.</th>
+                            <th>Route Id</th>
+                            <th>Train Type</th>
+                            <th>Basic Price Rate</th>
+                            <th>First Class Price Rate</th>
+                            <!--<th>Operation</th>-->
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!--This is an empty table body-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!---------------------------------basic information------------------->
+            <div class="step panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Basic Information
+                    </h3>
+                </div>
+                <div class="input-box panel-body">
+                    <form role="form" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Trip Id: </label>
+                            <div class="col-sm-10">
+                                <input id="basic_information_tripId" class="form-control" name='tripId'
+                                       value='G1234'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">TrainType ID: </label>
+                            <div class="col-sm-10">
+                                <input id="basic_information_trainTypeId" class="form-control" name='trainTypeId'
+                                       value='GaoTieOne'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">startingStation Id: </label>
+                            <div class="col-sm-10">
+                                <input id="basic_information_startingStation" class="form-control" name='startingStation'
+                                       value='shanghai'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Station Id: </label>
+                            <div class="col-sm-10">
+                                <input id="basic_information_stations" class="form-control" name='stations'
+                                       value='beijing'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">TerminalStation Id: </label>
+                            <div class="col-sm-10">
+                                <input id="basic_information_terminalStation" class="form-control" name='terminalStation'
+                                       value='taiyuan'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">StartingTime: </label>
+                            <div class="col-sm-10">
+                                <input id="basic_information_startingTime" type="time" class="form-control"
+                                       name='startingTime' value='09:51'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">EndTime: </label>
+                            <div class="col-sm-10">
+                                <input id="basic_information_endTime" type="time" class="form-control"
+                                       name='endTime' value='15:51'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">startingPlace: </label>
+                            <div class="col-sm-10">
+                                <input id="basic_information_startingPlace" class="form-control" name='startingPlace'
+                                       value='Shang Hai'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">endPlace: </label>
+                            <div class="col-sm-10">
+                                <input id="basic_information_endPlace" class="form-control" name='endPlace'
+                                       value='Tai Yuan'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">departureTime: </label>
+                            <div class="col-sm-10">
+                                <input id="basic_information_departureTime" class="form-control" type="date" name='departureTime' value=''>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button id="basic_information_button" type="button" class="btn btn-primary">Query Basic Information</button>
+                                <label id="single_query_basic_info_status" class="noshow_component"></label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Return Value
+                    </h3>
+                </div>
+                <div class="result panel-body">
+                    <table id="query_basic_information_list_table" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>status</th>
+                            <th>percent</th>
+                            <th>trainType.id</th>
+                            <th>trainType.economyClass</th>
+                            <th>trainType.confortClass</th>
+                            <th>prices.economyClass</th>
+                            <th>prices.confortClass</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!--This is an empty table body-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!---------------------------------ticketinfo ------------------------->
+            <div class="step panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Ticket Information
+                    </h3>
+                </div>
+                <div class="input-box panel-body">
+                    <form role="form" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Trip Id: </label>
+                            <div class="col-sm-10">
+                                <input id="ticketinfo_tripId" class="form-control" name='tripId'
+                                       value='G1234'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">TrainType ID: </label>
+                            <div class="col-sm-10">
+                                <input id="ticketinfo_trainTypeId" class="form-control" name='trainTypeId'
+                                       value='GaoTieOne'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">startingStation Id: </label>
+                            <div class="col-sm-10">
+                                <input id="ticketinfo_startingStation" class="form-control" name='startingStation'
+                                       value='shanghai'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Station Id: </label>
+                            <div class="col-sm-10">
+                                <input id="ticketinfo_stations" class="form-control" name='stations'
+                                       value='beijing'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">TerminalStation Id: </label>
+                            <div class="col-sm-10">
+                                <input id="ticketinfo_terminalStation" class="form-control" name='terminalStation'
+                                       value='taiyuan'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">StartingTime: </label>
+                            <div class="col-sm-10">
+                                <input id="ticketinfo_startingTime" type="time" class="form-control"
+                                       name='startingTime' value='09:51'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">EndTime: </label>
+                            <div class="col-sm-10">
+                                <input id="ticketinfo_endTime" type="time" class="form-control"
+                                       name='endTime' value='15:51'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">startingPlace: </label>
+                            <div class="col-sm-10">
+                                <input id="ticketinfo_startingPlace" class="form-control" name='startingPlace'
+                                       value='Shang Hai'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">endPlace: </label>
+                            <div class="col-sm-10">
+                                <input id="ticketinfo_endPlace" class="form-control" name='endPlace'
+                                       value='Tai Yuan'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">departureTime: </label>
+                            <div class="col-sm-10">
+                                <input id="ticketinfo_departureTime" class="form-control" type="date" name='departureTime' value=''>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button id="ticketinfo_button" type="button" class="btn btn-primary">Query Ticket Information</button>
+                                <label id="single_list_ticketInfo_status" class="noshow_component"></label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Return Value
+                    </h3>
+                </div>
+                <div class="result panel-body">
+                    <table id="query_ticketinfo_list_table" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>status</th>
+                            <th>percent</th>
+                            <th>trainType.id</th>
+                            <th>trainType.economyClass</th>
+                            <th>trainType.confortClass</th>
+                            <th>prices.economyClass</th>
+                            <th>prices.confortClass</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!--This is an empty table body-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!---------------------------------notification------------------------->
+            <div class="step panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Notification Service
+                    </h3>
+                </div>
+                <div class="input-box panel-body">
+                    <form role="form" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Email Address: </label>
+                            <div class="col-sm-10">
+                                <input id="notification_email" class="form-control" name='email'
+                                       value='fdse_microservices@163.com'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Order Number: </label>
+                            <div class="col-sm-10">
+                                <input id="notification_orderNumber" class="form-control" name='orderNumber'
+                                       value='123456789'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Username: </label>
+                            <div class="col-sm-10">
+                                <input id="notification_username" class="form-control" name='username'
+                                       value='fdse_microservices'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Starting Place: </label>
+                            <div class="col-sm-10">
+                                <input id="notification_startingPlace" class="form-control" name='startingPlace'
+                                       value='Shang Hai'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">End Place: </label>
+                            <div class="col-sm-10">
+                                <input id="notification_endPlace" class="form-control" name='endPlace'
+                                       value='Tai Yuan'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Starting Time: </label>
+                            <div class="col-sm-10">
+                                <input id="notification_startingTime" class="form-control" name='startingTime'
+                                       value='11:55'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Date: </label>
+                            <div class="col-sm-10">
+                                <input id="notification_date" class="form-control" name='date'
+                                       value='2017-8-8'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Seat Class: </label>
+                            <div class="col-sm-10">
+                                <input id="notification_seatClass" class="form-control" name='seatClass'
+                                       value='economyClass'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Seat Number: </label>
+                            <div class="col-sm-10">
+                                <input id="notification_seatNumber" class="form-control" name='seatNumber'
+                                       value='2'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Price: </label>
+                            <div class="col-sm-10">
+                                <input id="notification_price" class="form-control" name='price'
+                                       value='1000'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Notification Type:</label>
+                            <div class="col-sm-10">
+                                <select id="notification_type" class="form-control" name="notification_type">
+                                    <option value="0" selected = "selected">Preserve Success</option>
+                                    <option value="1">Order Create Success</option>
+                                    <option value="2">Order Changed Success</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button id="notification_send_email_button" type="button" class="btn btn-primary">Send Email</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Result: </label>
+                            <div class="col-sm-10">
+                                <span id ="notification_result"></span>
+                                <span id ="notification_status" class="noshow_component"></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+            <!---------------------------------inside payment------------------------->
+            <div class="step panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Inside Payment Service
+                    </h3>
+                </div>
+                <div class="input-box panel-body">
+                    <form role="form" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Order Id: </label>
+                            <div class="col-sm-10">
+                                <input id="inside_payment_orderId" class="form-control" name='orderId'
+                                       value='5ad7750b-a68b-49c0-a8c0-32776b067703'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Trip Id: </label>
+                            <div class="col-sm-10">
+                                <input id="inside_payment_tripId" class="form-control" name='tripId'
+                                       value='G1234'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button id="inside_payment_pay_button" type="button" class="btn btn-primary">Pay</button>
+                                <label id="single_inside_payment_status" class="noshow_component"></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Result: </label>
+                            <div class="col-sm-10">
+                                <span id ="inside_payment_result"></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Inside Payment List
+                        <button id="inside_payment_query_payment_button" type="button" class="btn btn-default btn-sm">Query</button>
+                        <label id="single_list_insite_payment_status" class="noshow_component"></label>
+                    </h3>
+                </div>
+                <div class="result panel-body">
+                    <div id="inside_payment_payment_result_table">
+                    <table id="query_inside_payment_payment_list_table" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Payment ID</th>
+                            <th>Order ID</th>
+                            <th>User ID</th>
+                            <th>Price</th>
+                            <th>Type</th>
+                        </tr>
+                        </thead>
+                        <tbody id="query_inside_payment_payment_list_tbody">
+                        <!--This is an empty table body-->
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        User Balance
+                        <button id="inside_payment_query_account_button" type="button" class="btn btn-default btn-sm">Query</button>
+                        <label id="single_user_balance_status" class="noshow_component"></label>
+                    </h3>
+                </div>
+                <div class="result panel-body">
+                    <div id="inside_payment_account_result_table">
+                    <table id="query_inside_payment_account_list_table" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Account ID</th>
+                            <th>Balance</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!--This is an empty table body-->
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Add Money List
+                        <button id="inside_payment_query_add_money_button" type="button" class="btn btn-default btn-sm">Query</button>
+                        <label id="single_list_insite_payment_add_money_status" class="noshow_component"></label>
+                    </h3>
+                </div>
+                <div class="result panel-body">
+                    <div id="inside_payment_add_money_result_table">
+                        <table id="query_inside_payment_add_money_list_table" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Account ID</th>
+                                <th>Money</th>
+                                <th>Type</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!--This is an empty table body-->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!---------------------------------Payment ------------------------------->
+            <div class="step panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Payment Service
+                    </h3>
+                </div>
+                <div class="input-box panel-body">
+                    <form role="form" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Order Id: </label>
+                            <div class="col-sm-10">
+                                <input id="payment_orderId" class="form-control" name='orderId'
+                                       value='5ad7750b-a68b-49c0-a8c0-32776b067703'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Price: </label>
+                            <div class="col-sm-10">
+                                <input id="payment_price" class="form-control" name='tripId'
+                                       value='100.0'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">User Id: </label>
+                            <div class="col-sm-10">
+                                <input id="payment_userId" class="form-control" name='userId'
+                                       value='4d2a46c7-71cb-4cf1-b5bb-b68406d9da6f'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button id="payment_pay_button" type="button" class="btn btn-primary">Pay</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Result: </label>
+                            <div class="col-sm-10">
+                                <span id ="payment_result"></span>
+                                <label id="single_payment_status" class="noshow_component"></label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Payment List
+                        <button id="payment_query_button" type="button" class="btn btn-default btn-sm">Query</button>
+                        <label id="single_list_payment_status" class="noshow_component"></label>
+                    </h3>
+                </div>
+                <div class="result panel-body">
+                    <div id="payment_result_table">
+                    <table id="query_payment_list_table" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Payment ID</th>
+                            <th>Order ID</th>
+                            <th>User ID</th>
+                            <th>Price</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!--This is an empty table body-->
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="flow_one" >
+            <!-------------------------Flow Preserve Login------------------->
+            <a name="anchor_flow_preserve_login"></a>
+            <div class="flow_preserve panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Ticket Reserve Step 1: - Login
+                    </h3>
+                </div>
+                <div class="group panel-body">
+                    <div class="input-box">
+                        <form role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Email: </label>
+                                <div class="col-sm-10">
+                                    <input id="flow_preserve_login_email" class="form-control" value='fdse_microservices@163.com'>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Password: </label>
+                                <div class="col-sm-10">
+                                    <input id="flow_preserve_login_password" class="form-control" value='DefaultPassword' >
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label class="col-sm-2 control-label">Verification Code</label>
+                                <div class="col-sm-10">
+                                    <input id="flow_preserve_login_verification_code" class="form-control" type="text" value="abcd"/>
+                                </div>
+                            </div >
+                            <div class="form-group ">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <img id="flow_preserve_login_verification_code_img" class="captcha_img" src="/api/v1/verifycode/generate">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button id="flow_preserve_login_button" type="button" class="btn btn-primary">Login</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2">
+                                    <label class="control-label">Login Status:</label>
+                                    <span id="flow_preserve_login_status " class="noshow_component"></span>
+                                    <span id="flow_preserve_login_msg"></span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <br>
+                </div>
+            </div>
+
+            <!----------------------Flow Preserve Select Ticket-------------->
+            <a name="anchor_flow_preserve_select_trip"></a>
+            <div class="flow_preserve panel panel-default">
+                <div class="panel-heading booking">
+                    <h3 class="panel-title">
+                        Ticket Reserve Step 2: - Ticket Booking
+                    </h3>
+                </div>
+                <div class="input-box panel-body booking">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Starting Place:</label>
+                            <div class="col-sm-10">
+                                <input id="travel_booking_startingPlace" class="form-control" name='' value='Shang Hai'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Terminal Place:</label>
+                            <div class="col-sm-10">
+                                <input id="travel_booking_terminalPlace" class="form-control" name='' value='Su Zhou'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Date:</label>
+                            <div class="col-sm-10">
+                                <input id="travel_booking_date" class="form-control" type="date" name='' value='' min="2017-07-13">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Train Type:</label>
+                            <div class="col-sm-10">
+                                <select id="search_select_train_type" class="form-control" name="train_type">
+                                    <option value="0">All</option>
+                                    <option value="1" selected = "selected">GaoTie DongChe</option>
+                                    <option value="2">Others</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button id="travel_booking_button" type="button" class="btn btn-primary">Search</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="panel-heading booking">
+                    <h3 class="panel-title">
+                        Tickets Searching Result
+                    </h3>
+                </div>
+                <div class="panel-body booking">
+                    <table id="tickets_booking_list_table" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Trip Id</th>
+                            <th>Train Type Id</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Starting Time</th>
+                            <th>End Time</th>
+                            <th>2rd Class Seat Number</th>
+                            <th>1st Class Seat Number</th>
+                            <th>Select Seat</th>
+                            <th>Operation</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <!--This is an empty table body-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!----------------------Select contacts for ticket--------------->
+            <a name="anchor_flow_preserve_select_contacts"></a>
+            <div id="preserve_select_contacts_panel" class="flow_preserve panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Ticket Reserve Step 3: - Select Contacts
+                        <button id="refresh_booking_contacts_button" type="button" class="btn btn-default btn-sm">Refresh Contacts</button>
+                    </h3>
+                </div>
+                <div class="panel-body booking">
+                    <form role='form' class='form-horizontal'>
+                        <table id="contacts_booking_list_table" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Name</th>
+                                <th>Document Type</th>
+                                <th>Document Number</th>
+                                <th>Phone Number</th>
+                                <th>Operation</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!----An empty table----->
+                            </tbody>
+                        </table>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Assurance:</label>
+                            <div class="col-sm-4">
+                                <select id="assurance_type" name="assurance_type" class="form-control" >
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox col-sm-4">
+                                <label>
+                                    <input id="need-food-or-not" type="checkbox" class="control-label" onclick="needFoodOrNot()">Need Food
+                                </label>
+                            </div>
+                            <div id="food-preserve-select" class="checkbox col-sm-4" style="display: none">
+                                <label>
+                                    <select id="preserve_food_type" name="preserve_food_type" class="form-control" onchange="changeFoodType()">
+                                        <option value="0" id="no-food">-- --</option>
+                                        <option value="1" id="train-food-option">Train Food</option>
+                                        <option value="2" id="station-food-option">Station Food Stores</option>
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div id="train-food-selected" class="form-group" style="display: none">
+                            <select id="train-food-type-list" name="train-food-type-list" class="form-control" >
+                            </select>
+                        </div>
+                        <div  id="food-store-selected" class="form-group" style="display: none">
+                            <div class="col-sm-3">
+                                <select id="food-station-list" name="food-station-list" class="form-control" onchange="preserveChangeFoodStation()">
+                                </select>
+                            </div>
+                            <div class="col-sm-3">
+                                <select id="food-stores-list" name="food-stores-list" class="form-control" onchange="preserveChangeFoodStore()">
+                                </select>
+                            </div>
+                            <div class="col-sm-3">
+                                <select id="food-store-food-list" name="food-store-food-list" class="form-control" >
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Consign Panel -->
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label>
+                                    <input id="need-consign-or-not" type="checkbox" class="control-label" onclick="needConsignOrNot()">&nbsp;&nbsp;Consign
+                                </label>
+                            </div>
+
+                            <div class="col-sm-3 consign_input" style="display: none">
+                                <input id="name_of_consignee" class="form-control" name='' placeholder="Consignee">
+                            </div>
+
+                            <div class="col-sm-3 consign_input" style="display: none">
+                                <input id="phone_of_consignee" class="form-control" name='' placeholder="Phone">
+                            </div>
+
+                            <div class="col-sm-3 consign_input" style="display: none">
+                                <input id="weight_of_consign" class="form-control" name='' placeholder="Weight">
+                            </div>
+                        </div>
+
+                        <div class='form-group'>
+                            <label class='col-sm-2 control-label'></label>
+                            <div class='col-sm-10'>
+                                <button id='ticket_select_contacts_cancel_btn' type='button' class='btn btn-default'> Cancel </button>
+                                <button id='ticket_select_contacts_confirm_btn' type='button' class='btn btn-primary'> Select </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-----------------Preserve Information Confirm------------------>
+            <a name="anchor_flow_preserve_confirm"></a>
+            <div id="preserve_ticket_confirm_panel" class='flow_preserve panel panel-default'>
+                <div class='panel-heading'>
+                    <h4 class='panel-title'>
+                        Ticket Reserve Step 4: - Confirm Your Ticket Information
+                    </h4>
+                </div>
+                <div class='panel-body'>
+                    <form role='form' class='form-horizontal'>
+                        <div class='div form-group'>
+                            <label class='col-sm-2 control-label'>From: </label>
+                            <div class='col-sm-10'>
+                                <label id='ticket_confirm_from' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='div form-group'>
+                            <label class='col-sm-2 control-label'>To: </label>
+                            <div class='col-sm-10'>
+                                <label id='ticket_confirm_to' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group'>
+                            <label class='col-sm-2 control-label'>Trip Id: </label>
+                            <div class='col-sm-10'>
+                                <label id='ticket_confirm_tripId' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group'>
+                            <label class='col-sm-2 control-label'>Price: </label>
+                            <div class='col-sm-10'>
+                                <label id='ticket_confirm_price' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group'>
+                            <label class='col-sm-2 control-label'>Date: </label>
+                            <div class='col-sm-10'>
+                                <label id='ticket_confirm_travel_date' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group'>
+                            <label class='col-sm-2 control-label'>Name: </label>
+                            <div class='col-sm-10'>
+                                <label id='ticket_confirm_contactsName' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group'>
+                            <label class='col-sm-2 control-label'>Seat Type: </label>
+                            <div class='col-sm-10'>
+                                <label id='ticket_confirm_seatType' class='noshow_component control-label'></label>
+                                <label id='ticket_confirm_seatType_String' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group'>
+                            <label class='col-sm-2 control-label'>Document Type: </label>
+                            <div class='col-sm-10'>
+                                <label id='ticket_confirm_documentType' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group'>
+                            <label class='col-sm-2 control-label'>DocumentNumber: </label>
+                            <div class='col-sm-10'>
+                                <label id='ticket_confirm_documentNumber' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group' style="display: none" id="ticket_confirm_food_type_div">
+                            <label class='col-sm-2 control-label'>Food Type: </label>
+                            <div class='col-sm-10'>
+                                <label id='ticket_confirm_food_type' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group' style="display: none" id="ticket_confirm_food_station_div">
+                            <label class='col-sm-2 control-label'>Food Station: </label>
+                            <div class='col-sm-10'>
+                                <label id='ticket_confirm_food_station' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group' style="display: none" id="ticket_confirm_food_store_div">
+                            <label class='col-sm-2 control-label'>Store Name: </label>
+                            <div class='col-sm-10'>
+                                <label id='ticket_confirm_food_store' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group' style="display: none" id="ticket_confirm_food_name_div">
+                            <label class='col-sm-2 control-label'>Food Name: </label>
+                            <div class='col-sm-10'>
+                                <label id='ticket_confirm_food_name' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group' style="display: none" id="ticket_confirm_food_price_div">
+                            <label class='col-sm-2 control-label'>Food Price: </label>
+                            <div class='col-sm-10'>
+                                <label id='ticket_confirm_food_price' class='control-label'></label>
+                            </div>
+                        </div>
+
+                        <!--Consign Information-->
+                        <div class='form-group ticket_confirm_consign_div' style="display: none">
+                            <label class='col-sm-2 control-label'>Consignee Name: </label>
+                            <div class='col-sm-10'>
+                                <label id='ticket_confirm_consignee_name' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group ticket_confirm_consign_div' style="display: none">
+                            <label class='col-sm-2 control-label'>Consignee Phone: </label>
+                            <div class='col-sm-10'>
+                                <label id='ticket_confirm_consignee_phone' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group ticket_confirm_consign_div' style="display: none">
+                            <label class='col-sm-2 control-label'>Consign Weight: </label>
+                            <div class='col-sm-10'>
+                                <label id='ticket_confirm_consign_weight' class='control-label'></label>
+                            </div>
+                        </div>
+
+                        <div class='form-group noshow_component'>
+                            <label class='col-sm-2 control-label'>Contact Id: </label>
+                            <div class='col-sm-10'>
+                                <label id='ticket_confirm_contactsId' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group'>
+                            <label class='col-sm-2 control-label'></label>
+                            <div class='col-sm-10'>
+                                <button id='ticket_confirm_cancel_btn' type='button' class='btn btn-default'> No, some information wrong </button>
+                                <button id='ticket_confirm_confirm_btn' type='button' class='btn btn-primary'> Confirm Ticket </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!----------------------Pay For Ticket after preserve------------>
+            <a name="anchor_flow_preserve_pay"></a>
+            <div id="preserve_pay_panel" class="step panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Ticket Reserve Step 5: - Pay for Preserve Ticket
+                    </h3>
+                </div>
+                <div class="input-box panel-body">
+                    <form role="form" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Order Id: </label>
+                            <div class="col-sm-10">
+                                <input id="preserve_pay_orderId" class="form-control"
+                                       readonly="readonly" value=''>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Price: </label>
+                            <div class="col-sm-10">
+                                <input id="preserve_pay_price" class="form-control"
+                                       readonly="readonly" value=''>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Trip Id: </label>
+                            <div class="col-sm-10">
+                                <input id="preserve_pay_tripId" class="form-control"
+                                       readonly="readonly" value=''>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button id="preserve_pay_button" type="button" class="btn btn-primary">Pay</button>
+                                <button id="preserve_pay_later_button" type="button" class="btn btn-default">No.Pay it later.</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!----------------------Collect Your Ticket---------------------->
+            <a name="anchor_flow_preserve_collect"></a>
+            <div class="flow_preserve panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Ticket Reserve Step 6: - Ticket Collect
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="input-box">
+                        <form role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Order Id:</label>
+                                <div class="col-sm-10">
+                                    <input id="preserve_collect_order_id" class="form-control" value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button id="preserve_collect_button" type="button" class="btn btn-primary">Collect Tickets</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!----------------------Execute Your Ticket---------------------->
+            <a name="anchor_flow_preserve_execute"></a>
+            <div class="flow_preserve panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Ticket Reserve Step 7: - Enter Station
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="input-box">
+                        <form role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Order Id:</label>
+                                <div class="col-sm-10">
+                                    <input id="preserve_execute_order_id" class="form-control" value=''>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button id="preserve_order_button" type="button" class="btn btn-primary">Enter Station</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2">
+                                    <label class="control-label">Enter Status Status:</label>
+                                    <span id="preserve_order_status"></span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="flow_two" >
+
+            <!---My Order Pane---->
+            <a name="anchor_flow_rebook_orders"></a>
+            <div class="flow_rebook panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Flow Rebook Step 1: - View My Orders
+                        <button id="refresh_my_order_list_button" type="button" class="btn btn-default btn-sm">Refresh Orders</button>
+                    </h3>
+                </div>
+                <div class="panel-body" id="my_orders_result">
+                    <!-----Empty Body-------->
+                </div>
+            </div>
+
+            <!---Ticket Cancel Pane---->
+            <a name="anchor_flow_cancel_orders"></a>
+            <div id="ticket_cancel_panel" class="flow_rebook panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Flow Preserve Step 2: - Cancel Order
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <form role="form" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label">Cancel The Ticket? You will get <label id="cancel_money_refund"> none </label> refund.</label>
+                            <label>Ticket Order Id:<label id="ticket_cancel_order_id"> none </label></label>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-10">
+                                <button id="ticket_cancel_panel_cancel" type="button" class="btn btn-primary">
+                                    No.
+                                </button>
+                                <button id="ticket_cancel_panel_confirm" type="button" class="btn btn-default">
+                                    Yes.
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!---Ticket Change Pane---->
+            <a name="anchor_flow_rebook_rebook_orders"></a>
+            <div id="order_rebook_panel" class="flow_rebook panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Flow Preserve Step 2: - Change Your Order
+                    </h3>
+                </div>
+                <div class="input-box panel-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Starting Place:</label>
+                            <div class="col-sm-10">
+                                <input id="travel_rebook_startingPlace" readonly="readonly" class="form-control" name='' value='Shang Hai'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Terminal Place:</label>
+                            <div class="col-sm-10">
+                                <input id="travel_rebook_terminalPlace" readonly="readonly" class="form-control" name='' value='Tai Yuan'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Date:</label>
+                            <div class="col-sm-10">
+                                <input id="travel_rebook_date" class="form-control" type="date" name='' value=''>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Train Type:</label>
+                            <div class="col-sm-10">
+                                <select id="search_rebook_train_type" class="form-control" name="train_type">
+                                    <option value="0">All</option>
+                                    <option value="1" selected = "selected">GaoTie DongChe</option>
+                                    <option value="2">Others</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-10">
+                                <button id="travel_rebook_button" type="button" class="btn btn-primary">Search</button>
+                                <button id="travel_rebook_cancel" type="button" class="btn btn-default">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Tickets Searching Result
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <table id="tickets_change_list_table" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Train Type</th>
+                            <th>Trip Id</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Starting Time</th>
+                            <th>End Time</th>
+                            <th>2rd Class Seat Number</th>
+                            <th>1st Class Seat Number</th>
+                            <th>Select Seat</th>
+                            <th>Operation</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <!--This is an empty table body-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!---Ticket Change Comfirm Pane---->
+            <a name="anchor_flow_rebook_confirm"></a>
+            <div id="order_rebook_confirm_panel" class=" panel panel-default">
+                <div class='panel-heading'>
+                    <h4 class='panel-title'>
+                        Flow Rebook Step 3: - Confirm Your Ticket Information
+                    </h4>
+                </div>
+                <div class='panel-body'>
+                    <form role='form' class='form-horizontal'>
+                        <div class='div form-group noshow_component'>
+                            <label class='col-sm-2 control-label'>Old Order Id: </label>
+                            <div class='col-sm-10'>
+                                <label id='ticket_rebook_confirm_old_order_id' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group'>
+                            <label class='col-sm-2 control-label'>Old Trip Id: </label>
+                            <div class='col-sm-10'>
+                                <label id='ticket_rebook_confirm_old_tripId' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group'>
+                            <label class='col-sm-2 control-label'>New Trip Id: </label>
+                            <div class='col-sm-10'>
+                                <label id='ticket_rebook_confirm_new_tripId' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group'>
+                            <label class='col-sm-2 control-label'>Date: </label>
+                            <div class='col-sm-10'>
+                                <label id='ticket_rebook_confirm_travel_date' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group'>
+                            <label class='col-sm-2 control-label'>Seat Type: </label>
+                            <div class='col-sm-10'>
+                                <label id='ticket_rebook_confirm_seatType' class='noshow_component control-label'></label>
+                                <label id='ticket_rebook_confirm_seatType_String' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group'>
+                            <label class='col-sm-2 control-label'></label>
+                            <div class='col-sm-10'>
+                                <button id='ticket_rebook_confirm_cancel_btn' type='button' class='btn btn-default'> No, some information wrong </button>
+                                <button id='ticket_rebook_confirm_confirm_btn' type='button' class='btn btn-primary'> Confirm Ticket </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!---Ticket Change Pay Pane---->
+            <a name="anchor_flow_rebook_pay"></a>
+            <div id="ticket_rebook_pay_panel" class="step panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Flow Rebook Step 4: - Pay For Your Rebook
+                    </h3>
+                </div>
+                <div class="input-box panel-body">
+                    <form role="form" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Price: </label>
+                            <div class="col-sm-10">
+                                <input id="rebook_money_pay" class="form-control"
+                                       readonly="readonly" value=''>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button id="ticket_rebook_pay_panel_confirm" type="button" class="btn btn-primary">Pay</button>
+                                <button id="ticket_rebook_pay_panel_cancel" type="button" class="btn btn-default">No.I regret.</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!---Pay For Not Paid Order--->
+            <a name="anchor_flow_order_pay_for_not_paid"></a>
+            <div id="order_pay_for_not_paid" class="step panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Pay for Your Order
+                    </h3>
+                </div>
+                <div class="input-box panel-body">
+                    <form role="form" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Order Id: </label>
+                            <div class="col-sm-10">
+                                <input id="pay_for_not_paid_orderId" class="form-control"
+                                       readonly="readonly" value=''>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Price: </label>
+                            <div class="col-sm-10">
+                                <input id="pay_for_not_paid_price" class="form-control"
+                                       readonly="readonly" value=''>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Trip Id: </label>
+                            <div class="col-sm-10">
+                                <input id="pay_for_not_paid_tripId" class="form-control"
+                                       readonly="readonly" value=''>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button id="pay_for_not_paid_pay_button" type="button" class="btn btn-primary">Pay</button>
+                                <button id="pay_for_not_paid_pay_later_button" type="button" class="btn btn-default">No.Pay it later.</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Consign and voucher -->
+        <div id="flow_three">
+            <!---My Order Pane---->
+            <a name="anchor_flow_rebook_orders"></a>
+            <div class="flow_rebook panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                            Step 1: - View My Orders
+                        <button id="refresh_my_order_list_button_three" type="button" class="btn btn-default btn-sm">Refresh Orders</button>
+                    </h3>
+                </div>
+                <div class="panel-body" id="my_orders_result_three">
+                    <!-----Empty Body-------->
+                </div>
+            </div>
+
+            <!---My Order Pane---->
+            <a name="anchor_flow_rebook_orders"></a>
+            <div class="flow_rebook panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Step 2: - View My Consigns
+                        <button id="refresh_my_consign_list_button3" type="button" class="btn btn-default btn-sm">Refresh Consigns</button>
+                    </h3>
+                </div>
+                <div class="panel-body" id="my_consigns_result3">
+                    <!-----Empty Body-------->
+                </div>
+            </div>
+        </div>
+
+        <div id="flow_four">
+            <a name="anchor_flow_advance_reserve_login"></a>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Advanced Ticket Reserve Step 1: - Login
+                    </h3>
+                </div>
+                <div class="panel-body">
+                        <form role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-offset-1 col-sm-1 control-label">Email: </label>
+                                <div class="col-sm-4">
+                                    <input id="flow_advance_reserve_login_email" class="form-control" value='fdse_microservices@163.com'>
+                                </div>
+                                <label class="col-sm-1 control-label">Password: </label>
+                                <div class="col-sm-4">
+                                    <input id="flow_advance_reserve_login_password" class="form-control" value='DefaultPassword' >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class=" col-sm-offset-1 col-sm-1 control-label">Verification Code</label>
+                                <div class="col-sm-1">
+                                    <input id="flow_advance_reserve_login_verification_code" class="form-control" type="text" value="abcd"/>
+                                </div>
+                                <div class="col-sm-2">
+                                    <img id="flow_advance_reserve_login_verification_code_img" class="captcha_img" src="/api/v1/verifycode/generate">
+                                </div>
+                                <div class="col-sm-1">
+                                    <button id="flow_advance_reserve_login_button" type="button" class="btn btn-primary">Login</button>
+                                </div>
+                            </div >
+                        </form>
+                    <br>
+                </div>
+            </div>
+
+            <a name="anchor_flow_advance_reserve_select_trip"></a>
+            <div class="panel panel-default">
+                <div class="panel-heading booking">
+                    <h3 class="panel-title">
+                        Advanced Ticket Reserve Step 2: - Advanced Ticket Searching
+                    </h3>
+                </div>
+                <div class="input-box panel-body">
+                    <form role="form" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-offset-1 col-sm-1 control-label">Starting Place:</label>
+                            <div class="col-sm-2">
+                                <input id="flow_advance_reserve_startingPlace" class="form-control" value='Nan Jing'>
+                            </div>
+                            <label class="col-sm-1 control-label">Terminal Place:</label>
+                            <div class="col-sm-2">
+                                <input id="flow_advance_reserve_terminalPlace" class="form-control" value='Shang Hai'>
+                            </div>
+                            <label class="col-sm-1 control-label">Date:</label>
+                            <div class="col-sm-3">
+                                <input id="flow_advance_reserve_booking_date" class="form-control" type="date" value='' min="2017-07-13">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-offset-1 col-sm-1 control-label">Search Type:</label>
+                            <div class="col-sm-3">
+                                <select id="flow_advance_reserve_select_searchType" class="form-control">
+                                    <option value="0" selected = "selected">Minimum Station Number</option>
+                                    <option value="1">Cheapest</option>
+                                    <option value="2">Quickest</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-offset-5 col-sm-1">
+                                <button id="flow_advance_reserve_booking_button" type="button" class="btn btn-primary">Search</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="panel-heading booking">
+                    <h3 class="panel-title">
+                        Tickets Searching Result
+                    </h3>
+                </div>
+                <div class="panel-body booking">
+                    <table id="flow_advance_reserve_booking_list_table" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Trip Id</th>
+                            <th>Train Type Id</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Stop At</th>
+                            <th>Starting Time</th>
+                            <th>End Time</th>
+                            <th>2rd Class Seat Number</th>
+                            <th>1st Class Seat Number</th>
+                            <th>Select Seat</th>
+                            <th>Operation</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!--This is an empty table body-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!----------------------Select contacts for ticket--------------->
+            <a name="anchor_flow_preserve_select_contacts"></a>
+            <div id="flow_advance_reserve_select_contacts_panel" class="flow_preserve panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Ticket Reserve Step 3: - Select Contacts
+                        <button id="flow_advance_reserve_booking_contacts_button" type="button" class="btn btn-default btn-sm">Refresh Contacts</button>
+                    </h3>
+                </div>
+                <div class="panel-body booking">
+                    <form role='form' class='form-horizontal'>
+                        <table id="flow_advance_reserve_contacts_booking_list_table" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Name</th>
+                                <th>Document Type</th>
+                                <th>Document Number</th>
+                                <th>Phone Number</th>
+                                <th>Operation</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!----An empty table----->
+                            </tbody>
+                        </table>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Assurance:</label>
+                            <div class="col-sm-4">
+                                <select id="flow_advance_reserve_assurance_type" name="assurance_type" class="form-control" >
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox col-sm-4">
+                                <label>
+                                    <input id="flow_advance_reserve_need_food_or_not" type="checkbox" class="control-label" onclick="flow_advance_needFoodOrNot()">Need Food
+                                </label>
+                            </div>
+                            <div id="flow_advance_reserve_food_preserve_select" class="checkbox col-sm-4" style="display: none">
+                                <label>
+                                    <select id="flow_advance_reserve_preserve_food_type" name="preserve_food_type" class="form-control" onchange="flow_advance_changeFoodType()">
+                                        <option value="0" id="flow_advance_reserve_no_food">-- --</option>
+                                        <option value="1" id="flow_advance_reserve_train_food_option">Train Food</option>
+                                        <option value="2" id="flow_advance_reserve_statio_food_option">Station Food Stores</option>
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div id="flow_advance_reserve_train_food_selected" class="form-group" style="display: none">
+                            <select id="flow_advance_reserve_train_food_type_list" name="train-food-type-list" class="form-control" >
+                            </select>
+                        </div>
+                        <div  id="flow_advance_reserve_food_store_selected" class="form-group" style="display: none">
+                            <div class="col-sm-3">
+                                <select id="flow_advance_reserve_food_station_list" name="food-station-list" class="form-control" onchange="flow_advance_preserveChangeFoodStation()">
+                                </select>
+                            </div>
+                            <div class="col-sm-3">
+                                <select id="flow_advance_reserve_food_stores_list" name="food-stores-list" class="form-control" onchange="flow_advance_preserveChangeFoodStore()">
+                                </select>
+                            </div>
+                            <div class="col-sm-3">
+                                <select id="flow_advance_reserve_food_store_food_list" name="food-store-food-list" class="form-control" >
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Consign Panel -->
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label>
+                                    <input id="flow_advance_reserve_need_consign_or_not" type="checkbox" class="control-label" onclick="flow_advance_needConsignOrNot()">&nbsp;&nbsp;Consign
+                                </label>
+                            </div>
+
+                            <div class="col-sm-3 flow_advance_reserve_consign_input" style="display: none">
+                                <input id="flow_advance_reserve_name_of_consignee" class="form-control" name='' placeholder="Consignee">
+                            </div>
+
+                            <div class="col-sm-3 flow_advance_reserve_consign_input" style="display: none">
+                                <input id="flow_advance_reserve_phone_of_consignee" class="form-control" name='' placeholder="Phone">
+                            </div>
+
+                            <div class="col-sm-3 flow_advance_reserve_consign_input" style="display: none">
+                                <input id="flow_advance_reserve_weight_of_consign" class="form-control" name='' placeholder="Weight">
+                            </div>
+                        </div>
+
+                        <div class='form-group'>
+                            <label class='col-sm-2 control-label'></label>
+                            <div class='col-sm-10'>
+                                <button id='flow_advance_reserve_ticket_select_contacts_cancel_btn' type='button' class='btn btn-default'> Cancel </button>
+                                <button id='flow_advance_reserve_ticket_select_contacts_confirm_btn' type='button' class='btn btn-primary'> Select </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-----------------Preserve Information Confirm------------------>
+            <a name="anchor_flow_advance_reserve_confirm"></a>
+            <div id="flow_advance_reserve_ticket_confirm_panel" class='flow_preserve panel panel-default'>
+                <div class='panel-heading'>
+                    <h4 class='panel-title'>
+                        Ticket Reserve Step 4: - Confirm Your Ticket Information
+                    </h4>
+                </div>
+                <div class='panel-body'>
+                    <form role='form' class='form-horizontal'>
+                        <div class='div form-group'>
+                            <label class='col-sm-2 control-label'>From: </label>
+                            <div class='col-sm-10'>
+                                <label id='flow_advance_reserve_ticket_confirm_from' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='div form-group'>
+                            <label class='col-sm-2 control-label'>To: </label>
+                            <div class='col-sm-10'>
+                                <label id='flow_advance_reserve_ticket_confirm_to' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group'>
+                            <label class='col-sm-2 control-label'>Trip Id: </label>
+                            <div class='col-sm-10'>
+                                <label id='flow_advance_reserve_ticket_confirm_tripId' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group'>
+                            <label class='col-sm-2 control-label'>Price: </label>
+                            <div class='col-sm-10'>
+                                <label id='flow_advance_reserve_ticket_confirm_price' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group'>
+                            <label class='col-sm-2 control-label'>Date: </label>
+                            <div class='col-sm-10'>
+                                <label id='flow_advance_reserve_ticket_confirm_travel_date' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group'>
+                            <label class='col-sm-2 control-label'>Name: </label>
+                            <div class='col-sm-10'>
+                                <label id='flow_advance_reserve_ticket_confirm_contactsName' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group'>
+                            <label class='col-sm-2 control-label'>Seat Type: </label>
+                            <div class='col-sm-10'>
+                                <label id='flow_advance_reserve_ticket_confirm_seatType' class='noshow_component control-label'></label>
+                                <label id='flow_advance_reserve_ticket_confirm_seatType_String' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group'>
+                            <label class='col-sm-2 control-label'>Document Type: </label>
+                            <div class='col-sm-10'>
+                                <label id='flow_advance_reserve_ticket_confirm_documentType' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group'>
+                            <label class='col-sm-2 control-label'>DocumentNumber: </label>
+                            <div class='col-sm-10'>
+                                <label id='flow_advance_reserve_ticket_confirm_documentNumber' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group' style="display: none"
+                             id="flow_advance_reserve_ticket_confirm_food_type_div">
+                            <label class='col-sm-2 control-label'>Food Type: </label>
+                            <div class='col-sm-10'>
+                                <label id='flow_advance_reserve_ticket_confirm_food_type' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group' style="display: none"
+                             id="flow_advance_reserve_ticket_confirm_food_station_div">
+                            <label class='col-sm-2 control-label'>Food Station: </label>
+                            <div class='col-sm-10'>
+                                <label id='flow_advance_reserve_ticket_confirm_food_station' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group' style="display: none"
+                             id="flow_advance_reserve_ticket_confirm_food_store_div">
+                            <label class='col-sm-2 control-label'>Store Name: </label>
+                            <div class='col-sm-10'>
+                                <label id='flow_advance_reserve_ticket_confirm_food_store' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group' style="display: none"
+                             id="flow_advance_reserve_ticket_confirm_food_name_div">
+                            <label class='col-sm-2 control-label'>Food Name: </label>
+                            <div class='col-sm-10'>
+                                <label id='flow_advance_reserve_ticket_confirm_food_name' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group' style="display: none"
+                             id="flow_advance_reserve_ticket_confirm_food_price_div">
+                            <label class='col-sm-2 control-label'>Food Price: </label>
+                            <div class='col-sm-10'>
+                                <label id='flow_advance_reserve_ticket_confirm_food_price' class='control-label'></label>
+                            </div>
+                        </div>
+
+                        <!--Consign Information-->
+                        <div class='form-group flow_advance_reserve_ticket_confirm_consign_div' style="display: none">
+                            <label class='col-sm-2 control-label'>Consignee Name: </label>
+                            <div class='col-sm-10'>
+                                <label id='flow_advance_reserve_ticket_confirm_consignee_name' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group flow_advance_reserve_ticket_confirm_consign_div' style="display: none">
+                            <label class='col-sm-2 control-label'>Consignee Phone: </label>
+                            <div class='col-sm-10'>
+                                <label id='flow_advance_reserve_ticket_confirm_consignee_phone' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group flow_advance_reserve_ticket_confirm_consign_div' style="display: none">
+                            <label class='col-sm-2 control-label'>Consign Weight: </label>
+                            <div class='col-sm-10'>
+                                <label id='flow_advance_reserve_ticket_confirm_consign_weight' class='control-label'></label>
+                            </div>
+                        </div>
+
+                        <div class='form-group noshow_component'>
+                            <label class='col-sm-2 control-label'>Contact Id: </label>
+                            <div class='col-sm-10'>
+                                <label id='flow_advance_reserve_ticket_confirm_contactsId' class='control-label'></label>
+                            </div>
+                        </div>
+                        <div class='form-group'>
+                            <label class='col-sm-2 control-label'></label>
+                            <div class='col-sm-10'>
+                                <button id='flow_advance_reserve_ticket_confirm_cancel_btn' type='button' class='btn btn-default'> No, some information wrong </button>
+                                <button id='flow_advance_reserve_ticket_confirm_confirm_btn' type='button' class='btn btn-primary'> Confirm Ticket </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <a name="anchor_flow_advance_reserve_pay"></a>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Advanced Ticket Reserve Step 5: - Pay for Preserve Ticket
+                    </h3>
+                </div>
+                <div class="input-box panel-body">
+                    <form role="form" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-offset-1 col-sm-1 control-label">Order Id: </label>
+                            <div class="col-sm-4">
+                                <input id="flow_advance_reserve_pay_orderId" class="form-control"
+                                       readonly="readonly" value=''>
+                            </div>
+                            <label class="col-sm-1 control-label">Price: </label>
+                            <div class="col-sm-2">
+                                <input id="flow_advance_reserve_pay_price" class="form-control"
+                                       readonly="readonly" value=''>
+                            </div>
+                            <label class="col-sm-1 control-label">Trip Id: </label>
+                            <div class="col-sm-1">
+                                <input id="flow_advance_reserve_pay_tripId" class="form-control"
+                                       readonly="readonly" value=''>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-1">
+                                <button id="flow_advance_reserve_pay_button" type="button" class="btn btn-primary">Pay</button>
+                            </div>
+                            <div class="col-sm-1">
+                                <button id="flow_advance_reserve_pay_later_button" type="button" class="btn btn-default">No.Pay it later.</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <a name="anchor_flow_advance_reserve_collect"></a>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Advanced Ticket Reserve Step 6: - Ticket Collect
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="input-box">
+                        <form role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-offset-1 col-sm-1 control-label">Order Id:</label>
+                                <div class="col-sm-5">
+                                    <input id="flow_advanced_reserve_collect_order_id" class="form-control" value=''>
+                                </div>
+                                <div class="col-sm-1">
+                                    <button id="flow_advanced_reserve_collect_button" type="button" class="btn btn-primary">Collect Tickets</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <a name="anchor_flow_advance_reserve_execute"></a>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Advanced Ticket Reserve Step 7: - Enter Station
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="input-box">
+                        <form role="form" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-offset-1 col-sm-1 control-label">Order Id:</label>
+                                <div class="col-sm-5">
+                                    <input id="advanced_reserve_execute_order_id" class="form-control" value=''>
+                                </div>
+                                <div class="col-sm-1">
+                                    <button id="flow_advanced_reserve_execute_order_button" type="button" class="btn btn-primary">Enter Station</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </div>
+    </body>
+</html>

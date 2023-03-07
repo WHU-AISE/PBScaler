@@ -1,0 +1,34 @@
+# HTTP Server
+server:
+  port: 17853  # HTTP (Tomcat) port
+
+spring:
+  application:
+    name: ts-notification-service
+  mail:
+    host: smtp.163.com
+    port: 465
+    username: ${email_address:trainticket_notify@163.com}
+    password: ${email_password:GZKSCXHBOLKMCLDQ}
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+          auth: true
+          starttls:
+            enable: true
+            required: true
+  data:
+    mongodb:
+      host: ${mongohost:ts-notification-mongo}
+      database: ts
+      port: 27017
+
+  rabbitmq:
+    host: ${rabbitmq_host:localhost}
+    port: ${rabbitmq_port:5672}
+
+
+swagger:
+  controllerPackage: notification.controller
