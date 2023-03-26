@@ -18,7 +18,7 @@ class Showar:
         self.min_pod = config.min_pod
 
         self.mss = self.k8s_util.get_svcs_without_state()
-        # 为每一个微服务初始化controller
+        # Initialize controller for each microservice
         self.controller_map = {}
         for ms in self.mss:
             self.controller_map[ms] = PID(1 / 3, 1 / 3, 1 / 3, setpoint=self.SLO_target)
@@ -27,29 +27,26 @@ class Showar:
         self.alpha = 0.2
 
     def PID_score(self, ms):
-        # 获取 runq_latency
+        # get p90 latency
         p90 = self.prom_util.p90(ms)
         if np.isnan(p90):
             return self.SLO_target
-        # 计算PID score
+        # calculate PID score
         pid = self.controller_map[ms]
         output = pid(p90)
         return -1 * output
 
     def horizontal_scale(self):
-        # 获取所有服务的PID分数
         ms_score_map = {}
         for ms in self.mss:
             ms_score_map[ms] = self.PID_score(ms)
         print(ms_score_map)
-        # 从高到低排序
         ranks = sorted(ms_score_map.items(), key=lambda x: x[1], reverse=True)
-        # 实时获取服务之间的调用关系
+        # Get the invocation relationships between services in real time
         DG = self.prom_util.get_call()
         for pair in ranks:
             ms = pair[0]
             output = pair[1]
-            # 等依赖的服务全部扩容完
             son_mss = list(DG.successors(ms))
             while True:
                 if self.k8s_util.svcs_avaliable(son_mss):
@@ -62,7 +59,7 @@ class Showar:
             else:
                 continue
             if self.min_pod <= RM <= self.max_pod:
-                print(ms, '扩容到', RM)
+                print('{} is scaled to {}'.format(ms, RM))
                 self.k8s_util.patch_scale(ms, RM)
 
     def start(self):

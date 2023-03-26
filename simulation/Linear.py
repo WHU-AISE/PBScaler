@@ -60,9 +60,7 @@ if __name__ == '__main__':
     plot_df = pd.DataFrame({'true': y_test[0:50], 'pred': y_pred[0:50]})
     # fig = sns.lineplot(data=plot_df)
     # fig.get_figure().savefig('RandomForest.png')
-    # 设置风格样式
     sns.set(color_codes=True)
-    # 构建数据
     p = sns.regplot(x="true", y="pred", data=plot_df)
     plt.legend(labels=["predict", "true"])
     p.get_figure().savefig('Linear_regression.png')

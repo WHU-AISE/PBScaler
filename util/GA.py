@@ -18,22 +18,25 @@ class GA:
         self.size_pop = size_pop
         self.max_iter = max_iter
         self.encoding = encoding
-        self.selectStyle = selectStyle #采用二元锦标赛
-        self.recStyle =recStyle #采用多点交叉
-        self.mutStyle =mutStyle #采用二进制染色体的变异算子
-        self.pc= prob_cross #交叉概率
-        self.pm = prob_mut #变异概率
-        self.goal = np.array([-1]) if goal == 'max' else np.array([1]) #表示目标函数是最小化，元素为-1则表示对应的目标函数是最大化
+        self.selectStyle = selectStyle # binary tournament
+        self.recStyle =recStyle # two-point crossover operator
+        self.mutStyle =mutStyle # binary-chromosome mutation operator
+        self.pc= prob_cross # crossover probability
+        self.pm = prob_mut # mutation probability
+
+        # 1 means to minimize the target function
+        # -1 means to maximize objective function
+        self.goal = np.array([-1]) if goal == 'max' else np.array([1])
 
         self.ranges = np.array([lb,ub])
-        lbin, ubin = [1] * self.dim, [1] * self.dim # 决策变量下边界, 决策变量上边界
+        lbin, ubin = [1] * self.dim, [1] * self.dim # Lower and upper boundary of the decision variable
         self.borders=np.array([lbin,ubin])
-        self.varTypes = np.array([precision] * self.dim) #决策变量的类型，0表示连续，1表示离散
+        self.varTypes = np.array([precision] * self.dim) # type of the decision variable，[0 means continuous and 1 means discrete]
         self.Field = self.__set_chromosome()
         
-        Lind =int(np.sum(self.Field[0, :]))#计算染色体长度
-        self.obj_trace = np.zeros((self.max_iter, 2)) #定义目标函数值记录器
-        self.var_trace = np.zeros((self.max_iter, Lind)) #染色体记录器，记录历代最优个体的染色
+        Lind =int(np.sum(self.Field[0, :])) # Calculate chromosome length
+        self.obj_trace = np.zeros((self.max_iter, 2)) # record the value of object function  
+        self.var_trace = np.zeros((self.max_iter, Lind)) # record the best individuals in history
 
     
     def set_env(self, workloads: list, svcs: list, bottlenecks: list, r: dict):
@@ -47,12 +50,13 @@ class GA:
     
     def __set_chromosome(self):
         '''
-            染色体编码设置
+            set the configuration of chromosome
         '''
-        codes = [1] * self.dim#决策变量的编码方式，两个1表示变量均使用格雷编码
-        precisions =[6] * self.dim#决策变量的编码精度，表示解码后能表示的决策变量的精度可达到小数点后6位
-        scales = [0] * self.dim #0表示采用算术刻度，1表示采用对数刻度
-        #调用函数创建译码矩阵
+        codes = [1] * self.dim # Gray code
+        precisions =[6] * self.dim # Encoding precision of decision variables
+        scales = [0] * self.dim # arithmetic scale
+
+        # decoding matrix
         Field =ea.crtfld(self.encoding, self.varTypes, self.ranges, self.borders, precisions,codes,scales)
         return Field
     
@@ -77,41 +81,51 @@ class GA:
 
 
     def evolve(self):
-        Chrom = ea.crtpc(self.encoding, self.size_pop, self.Field) #生成种群染色体矩阵
-        variable = ea.bs2ri(Chrom, self.Field) #对初始种群进行解码
-        ObjV = self.__aim(variable) #计算初始种群个体的目标函数值
-        best_ind = np.argmax(ObjV) #计算当代最优个体的序号
+        # Generate the matrix for chromosome population
+        Chrom = ea.crtpc(self.encoding, self.size_pop, self.Field)
+        # Decode the initial population
+        variable = ea.bs2ri(Chrom, self.Field)
+        # Calculate the value of objective function for the initial population individual
+        ObjV = self.__aim(variable)
+        # Record the index of the best individuals
+        best_ind = np.argmax(ObjV)
         X_best = 0
 
         n_elites = int(self.size_pop / 2)
 
         for gen in range(self.max_iter):
-            FitnV = ea.ranking(self.goal * ObjV) #根据目标函数大小分配适应度值
-            SelCh = Chrom[ea.selecting(self.selectStyle, FitnV, self.size_pop - n_elites), :]#选择
-            SelCh = ea.recombin(self.recStyle, SelCh, self.pc) #重组
-            SelCh = ea.mutate(self.mutStyle, self.encoding, SelCh, self.pm)#变异
-            #把父代精英个体与子代的染色体进行合并，得到新一代种群
+            # Assign fitness values according to the value of the objective function
+            FitnV = ea.ranking(self.goal * ObjV)
+            # Select
+            SelCh = Chrom[ea.selecting(self.selectStyle, FitnV, self.size_pop - n_elites), :]
+            # Recombine
+            SelCh = ea.recombin(self.recStyle, SelCh, self.pc)
+            # Mutate
+            SelCh = ea.mutate(self.mutStyle, self.encoding, SelCh, self.pm)
+            # A new generation population is obtained by merging the chromosomes of the elite parent and offspring
             top_k_idx=ObjV.flatten().argsort()[::-1][0:n_elites]
             Chrom = np.vstack([Chrom[top_k_idx, :], SelCh])
-            Phen = ea.bs2ri(Chrom, self.Field)#对种群进行解码(二进制转十进制)
+            # Decode the population (binary to decimal)
+            Phen = ea.bs2ri(Chrom, self.Field)
 
-            ObjV = self.__aim(Phen)#求种群个体的目标函数值
-            #记录
-            best_ind = np.argmax(ObjV)#计算当代最优个体的序号
-            self.obj_trace[gen,0]=np.sum(ObjV)/ObjV.shape[0]#记录当代种群的目标函数均值
+            # Calculate objective function value for population
+            ObjV = self.__aim(Phen)
+            # Record the index of the best individuals
+            best_ind = np.argmax(ObjV)
+            # Record the mean of the objective function value for the population
+            self.obj_trace[gen,0]=np.sum(ObjV)/ObjV.shape[0]
             X_best = ObjV[best_ind] if ObjV[best_ind] > X_best else X_best
-            # obj_trace[gen,1]=ObjV[best_ind]#记录当代种群最优个体目标函数值
             self.obj_trace[gen,1]=X_best
-            self.var_trace[gen,:]=Chrom[best_ind,:]#记录当代种群最优个体的染色体
+            self.var_trace[gen,:]=Chrom[best_ind,:]
             pass
-        #进化完成
+        # Finish
         ea.trcplot(self.obj_trace, [['average fitness of population','max fitness of population']])
 
         res = []
         best_gen = np.argmax(self.obj_trace[:, [1]])
-        # print('最优解的目标函数值：', self.obj_trace[best_gen, 1])
-        variable = ea.bs2ri(self.var_trace[[best_gen], :], self.Field)#解码得到表现型（即对应的决策变量值）
-        # print('最优解的决策变量值为：')
+        # print('The value of the optimal solution is：', self.obj_trace[best_gen, 1])
+        variable = ea.bs2ri(self.var_trace[[best_gen], :], self.Field) # decode
+        # print('The decision variable value of the optimal solution are')
         for i in range(variable.shape[1]):
             # print('x'+str(i)+'=',variable[0, i])
             res.append(variable[0, i])

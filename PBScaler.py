@@ -269,10 +269,9 @@ class PBScaler:
     def cal_topology_potential(self, ab_DG, anomaly_score_map: dict):
         personal_array = {}
         for node in ab_DG.nodes:
-            # 计算当前节点的势
+            # calculate topological potential
             sigma = 1
             potential = anomaly_score_map[node]
-            # 需要加上前驱节点的影响
             pre_nodes = ab_DG.neighbors(node)
             for pre_node in pre_nodes:
                 potential += (anomaly_score_map[pre_node] * math.exp(-1 * math.pow(1/sigma, 2)))

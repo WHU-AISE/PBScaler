@@ -5,7 +5,6 @@ import pandas as pd
 
 
 def latency_canvas(path, qps_path, SLA):
-    # 这里使用前端P90作为延迟，不同微服务名称不一样
     latency = pd.read_csv(path + 'latency.csv')['frontend&p90'].tolist()
     qps = pd.read_csv(qps_path)['count'].tolist()
     SLA = [SLA] * len(qps)
@@ -27,7 +26,6 @@ def latency_canvas(path, qps_path, SLA):
     ax2.set_ylim([0, 800])
     ax2.set_ylabel('Number of users')
     ax2.legend(loc='upper right')
-    #折线图
 
     plt.xlim(-0.5,len(x))
     plt.savefig(path + 'latency.svg')
@@ -92,14 +90,13 @@ def instance_cdf(path):
     instances = df['count'].tolist()
 
     plt.hist(instances,color = 'g',cumulative=True,density=1,histtype='step',range=(11,max(instances)))
-    plt.ylabel("CDF",fontsize=20) #Y轴标签
+    plt.ylabel("CDF",fontsize=20)
     plt.xlabel("Number of Replicas",fontsize=20)
     plt.savefig(path + 'instances_cdf.svg')
     plt.close()
 
 
 def resource_canvas(path, qps_path):
-    # 这里使用前端P90作为延迟，不同微服务名称不一样
     vCPU = pd.read_csv(path + 'resource.csv')['vCPU'].tolist()
     memory = pd.read_csv(path + 'resource.csv')['memory'].tolist()
 
@@ -122,7 +119,6 @@ def resource_canvas(path, qps_path):
     ax2.set_ylim([0, 800])
     ax2.set_ylabel('Number of locust threads')
     ax2.legend(loc='upper right')
-    #折线图
 
     plt.xlim(-0.5,len(x))
     plt.savefig(path + 'resource.svg')

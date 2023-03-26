@@ -6,12 +6,12 @@ import pandas as pd
 from util.PrometheusClient import PrometheusClient
 from util.KubernetesClient import KubernetesClient
 
-# 获取调用边的响应延时
-def collect_call(config: Config, _dir: str):
+# Get the response time of the invocation edges
+def collect_call_latency(config: Config, _dir: str):
     call_df = pd.DataFrame()
 
     prom_util = PrometheusClient(config)
-    # 获取 P50，P90，P99 延时 ms
+    # P50，P90，P99
     prom_50_sql = 'histogram_quantile(0.50, sum(irate(istio_request_duration_milliseconds_bucket{reporter=\"destination\", destination_workload_namespace=\"%s\"}[1m])) by (destination_workload, destination_workload_namespace, source_workload, le))' % config.namespace
     prom_90_sql = 'histogram_quantile(0.90, sum(irate(istio_request_duration_milliseconds_bucket{reporter=\"destination\", destination_workload_namespace=\"%s\"}[1m])) by (destination_workload, destination_workload_namespace, source_workload, le))' % config.namespace
     prom_99_sql = 'histogram_quantile(0.99, sum(irate(istio_request_duration_milliseconds_bucket{reporter=\"destination\", destination_workload_namespace=\"%s\"}[1m])) by (destination_workload, destination_workload_namespace, source_workload, le))' % config.namespace
@@ -40,12 +40,12 @@ def collect_call(config: Config, _dir: str):
     call_df.to_csv(path, index=False)
 
 
-# 获取微服务的百分位延时
-def collect_latency(config: Config, _dir: str):
+# Get the response time for the microservices
+def collect_svc_latency(config: Config, _dir: str):
     latency_df = pd.DataFrame()
 
     prom_util = PrometheusClient(config)
-    # 获取 P50，P90，P99 延时 ms
+    # P50，P90，P99
     prom_50_sql = 'histogram_quantile(0.50, sum(irate(istio_request_duration_milliseconds_bucket{reporter=\"destination\", destination_workload_namespace=\"%s\"}[1m])) by (destination_workload, destination_workload_namespace, le))' % config.namespace
     prom_90_sql = 'histogram_quantile(0.90, sum(irate(istio_request_duration_milliseconds_bucket{reporter=\"destination\", destination_workload_namespace=\"%s\"}[1m])) by (destination_workload, destination_workload_namespace, le))' % config.namespace
     prom_99_sql = 'histogram_quantile(0.99, sum(irate(istio_request_duration_milliseconds_bucket{reporter=\"destination\", destination_workload_namespace=\"%s\"}[1m])) by (destination_workload, destination_workload_namespace, le))' % config.namespace
@@ -102,7 +102,7 @@ def collect_resource_metric(config: Config, _dir: str):
     metric_df.to_csv(path, index=False)
 
 
-# 获取微服务的pod数量
+# Get the number of pods for all microservices
 def collect_pod_num(config: Config, _dir: str):
     instance_df = pd.DataFrame()
     prom_util = PrometheusClient(config)
@@ -140,7 +140,7 @@ def collect_pod_num(config: Config, _dir: str):
     instance_df.to_csv(path, index=False)
 
 
-# 获取服务qps
+# get qps for microservice
 def collect_svc_qps(config: Config, _dir: str):
     qps_df = pd.DataFrame()
     prom_util = PrometheusClient(config)
@@ -165,14 +165,14 @@ def collect_svc_qps(config: Config, _dir: str):
     qps_df.to_csv(path, index=False)
 
 
-# 获取服务CPU,memory,fs,network
+# Get metric for microservices
 def collect_svc_metric(config: Config, _dir: str):
     prom_util = PrometheusClient(config)
     final_df = prom_util.get_svc_metric_range()
     final_df.to_csv(_dir + 'svc_metric.csv', index=False)
 
 
-# 获取微服务成功率
+# Get the success rate for microservices
 def collect_succeess_rate(config: Config, _dir: str):
     success_df = pd.DataFrame()
     prom_util = PrometheusClient(config)
@@ -199,11 +199,11 @@ def collect_succeess_rate(config: Config, _dir: str):
 
 
 def collect(config: Config, _dir: str):
-    print('收集指标数据')
+    print('collect metrics')
     if not os._dir.exists(_dir):
         os.make_dirs(_dir)
-    collect_call(config, _dir)
-    collect_latency(config, _dir)
+    collect_call_latency(config, _dir)
+    collect_svc_latency(config, _dir)
     collect_resource_metric(config, _dir)
     collect_succeess_rate(config, _dir)
     collect_svc_qps(config, _dir)

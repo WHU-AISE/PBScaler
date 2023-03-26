@@ -24,12 +24,11 @@ class MicroScaler:
         self.k8s_util = KubernetesClient(config)
         self.prom_util = PrometheusClient(config)
 
-        # 当前需要改变的服务
         self.mss = self.k8s_util.get_svcs()
         self.so = set()
         self.si = set()
 
-    # 容器的成本
+    # Cost of container
     def price(self, pod_count):
         return pod_count
 
@@ -45,11 +44,10 @@ class MicroScaler:
         else:
             return float(p50) / float(p90)
 
-    # 检测机
     def detector(self):
         svc_count_dic = self.k8s_util.get_svcs_counts()
         [print(svc, svc_count_dic[svc]) for svc in svc_count_dic.keys() if svc_count_dic[svc] != 1]
-        # 检测异常服务，获取异常服务列表
+        # Detect abnormal services and obtain the abnormal service list
         svcs = self.k8s_util.get_svcs()
         ab_svcs = []
         for svc in svcs:
@@ -63,7 +61,7 @@ class MicroScaler:
 
         self.service_power(ab_svcs)
 
-    # 决定哪些服务需要伸缩
+    # Decide which services need to scale
     def service_power(self, ab_svcs):
         for ab_svc in ab_svcs:
             p = self.p_value(ab_svc)
@@ -75,11 +73,10 @@ class MicroScaler:
             else:
                 self.so.add(ab_svc)
 
-    # 决定服务伸缩的程度
     # Auto-scale Decision
     def auto_scale(self):
         for svc in self.so:
-            # 开始扩容
+            # scale up
             origin_pod_count = self.k8s_util.get_svc_count(svc)
             if origin_pod_count == self.pod_max:
                 continue
@@ -89,7 +86,7 @@ class MicroScaler:
             t.setDaemon(True)
             t.start()
         for svc in self.si:
-            # 开始缩容
+            # scale down
             origin_pod_count = self.k8s_util.get_svc_count(svc)
             index = self.mss.index(svc)
             if origin_pod_count == 1:
@@ -101,20 +98,17 @@ class MicroScaler:
         self.so.clear()
         self.si.clear()
 
-    # 扩容具体操作
     def scale(self, x, index):
-        # 扩容到具体数量
         svc = self.mss[int(index)]
         self.k8s_util.patch_scale(svc, int(x))
-        print(svc, '扩容到', int(x))
-        # 循环确认pod是否都avaliable了
+        print('{} is scaled to {}'.format(svc, int(x)))
+        # ensure all the pod are avaliable
         while True:
             if self.k8s_util.all_avaliable():
                 break
 
         time.sleep(30)
 
-        # 计算当前分数
         svcs_counts = self.k8s_util.get_svcs_counts()
         for svc in svcs_counts.keys():
             begin = int(round((time.time() - 30)))
@@ -128,7 +122,7 @@ class MicroScaler:
                 score = -P90 * self.price(svcs_counts[svc]) + P90 * 10
             return score
 
-    # 贝叶斯优化    
+    # Bayesian optimization 
     def BO(self, f, pbounds):
         optimizer = BayesianOptimization(
             f=f,
@@ -141,7 +135,6 @@ class MicroScaler:
             n_iter=self.n_iter
         )
 
-    # 5分钟的滑动窗口
     def auto_task(self):
         print("microscaler is running...")
         self.detector()

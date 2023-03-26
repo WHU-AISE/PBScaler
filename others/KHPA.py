@@ -17,7 +17,7 @@ class KHPA:
         self.duration = config.duration
 
     def start(self):
-        # 需要在管理员权限下使用
+        # need rights of administrators
         print('启动 KHPA')
         os.system('sh ./others/HPA/%s.sh'%self.config.namespace)
         time.sleep(self.duration)

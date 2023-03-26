@@ -2,13 +2,13 @@ import os
 import numpy as np
 import pandas as pd
 
-# 计算平均响应时间（P90）
+# Calculate the average tail latency (P90)
 def avg_response_time(path: str):
     df = pd.read_csv(path, index_col=0)
     df = df['frontend&p90']
     return df.mean()
 
-# 判断SLA违反情况
+# Determine the SLA violation
 def SLA_conflict(threshold: float, path: str):
     df = pd.read_csv(path, index_col=0).fillna(0)
     # conflict_num = 0
@@ -34,9 +34,10 @@ def cal_pod_change(path: str):
                 count+=1
     return count
 
-# AWS标准计算resource cost
 def resource_cost(path: str):
     '''
+        calculate the resource cost
+        2021 ICWS Copa: A combined autoscaling method for kubernet
         cpu price: 0.00003334 (vCPU/s)
         mem price: 0.00001389 (G/s)
     '''
@@ -45,14 +46,15 @@ def resource_cost(path: str):
     mem_cost = (df['memory']*5*0.00001389).sum()
     return cpu_cost+mem_cost
 
-# avaliable
-# 95%<p<=100%    0
-# 90%<p<=95%     20% service charge
-# 80%<p<=90%     50% service charge
-# p<=80%         100% service charge
+
 def avaliable_cost(path: str):
     df = pd.read_csv(path, index_col = 0).fillna(0)
     df = df.iloc[:, 1:]
+    # avaliable
+    # 95%<p<=100%    0
+    # 90%<p<=95%     20% service charge
+    # 80%<p<=90%     50% service charge
+    # p<=80%         100% service charge
     # cost = 0
     # for index in df.columns:
     #     con1 = df[index] <= 1.00
@@ -72,10 +74,8 @@ def pod_cost(path: str):
     return df.sum(axis=1).mean()
     
     
-
-# 评估入口
-def evaluation(path: str):
-    conflict = SLA_conflict(500, path + 'latency.csv')
+def evaluation(path: str, SLO):
+    conflict = SLA_conflict(SLO, path + 'latency.csv')
     res_cost = resource_cost(path + 'resource.csv')
     av_cost = avaliable_cost(path + 'success_rate.csv')
     p_cost = pod_cost(path + 'instances.csv')

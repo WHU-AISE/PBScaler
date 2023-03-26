@@ -33,6 +33,6 @@ if __name__ == '__main__':
     controller = initController('PBScaler', config)
     controller.start()
 
-    # 收集指标
+    # collect metrics
     data_path = './output'
     MetricCollect.collect(config, data_path)

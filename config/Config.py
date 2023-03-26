@@ -22,7 +22,7 @@ class Config():
         self.k8s_config = '/home/ubuntu/xsy/config'
         self.k8s_yaml = '/home/ubuntu/xsy/microservices-demo/release/kubernetes-manifests.yaml'
         
-        # experiment duration
+        # set the duration of experiment
         self.duration = 1 * 20 * 60 # 20 min
         self.start = getNowTime()
         self.end = self.start + self.duration

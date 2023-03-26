@@ -62,7 +62,6 @@ class PrometheusClient:
         return DG
 
     def get_call_latency(self):
-        # 获取调用边P90延时
         prom_url = self.prom_no_range_url
         prom_90_sql = 'histogram_quantile(0.90, sum(irate(istio_request_duration_milliseconds_bucket{reporter=\"destination\", destination_workload_namespace=\"%s\"}[1m])) by (destination_workload, source_workload, le))' % self.namespace
         responses_90 = self.execute_prom(prom_url, prom_90_sql)
@@ -78,7 +77,7 @@ class PrometheusClient:
         return call_latencies
 
     def get_svc_latency(self):
-        # 获取调用边p50,p90,p99延时
+        # p50,p90,p99
         prom_url = self.prom_no_range_url
         prom_50_sql = 'histogram_quantile(0.50, sum(irate(istio_request_duration_milliseconds_bucket{reporter=\"destination\", destination_workload_namespace=\"%s\"}[1m])) by (destination_workload, le))' % self.namespace
         prom_90_sql = 'histogram_quantile(0.90, sum(irate(istio_request_duration_milliseconds_bucket{reporter=\"destination\", destination_workload_namespace=\"%s\"}[1m])) by (destination_workload, le))' % self.namespace
@@ -190,7 +189,7 @@ class PrometheusClient:
 
         return metric_df
 
-    # 获取服务qps
+    # Get qps for microservices
     def get_svc_qps_range(self):
         qps_df = pd.DataFrame()
         qps_sql = 'sum(rate(istio_requests_total{reporter="destination",namespace="%s"}[1m])) by (destination_workload)' % self.namespace
@@ -212,7 +211,7 @@ class PrometheusClient:
 
         return qps_df
 
-    # 获取服务CPU,memory,fs,network
+    # Get CPU,memory,fs,network for microservices
     def get_svc_metric_range(self):
         df = pd.DataFrame()
         k8s_util = KubernetesClient(self.config)
@@ -321,7 +320,7 @@ class PrometheusClient:
         final_df['timestamp'] = final_df['timestamp'].astype('datetime64[s]')
         return final_df
 
-    # 获取微服务成功率
+    # Get success rate for microservices
     def get_success_rate_range(self):
         success_df = pd.DataFrame()
         success_rate_sql = '(sum(rate(istio_requests_total{reporter="destination", response_code!~"5.*",namespace="%s"}[1m])) by (destination_workload, destination_workload_namespace) / sum(rate(istio_requests_total{reporter="destination",namespace="%s"}[1m])) by (destination_workload, destination_workload_namespace))' % (
@@ -406,7 +405,7 @@ class PrometheusClient:
 
         df = df.fillna(0)
 
-        # 聚合
+        # aggregation
         final_df = pd.DataFrame()
         final_df['timestamp'] = df['timestamp']
         svcs = k8s_util.get_svcs()

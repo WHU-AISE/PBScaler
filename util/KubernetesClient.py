@@ -12,14 +12,14 @@ class KubernetesClient():
         self.core_api = client.CoreV1Api()  # namespace,pod,service,pv,pvc
         self.apps_api = client.AppsV1Api()  # deployment
 
-    # 获取所有服务
+    # Get all microservices
     def get_svcs(self):
         ret = self.apps_api.list_namespaced_deployment(self.namespace)
         svcs = [i.metadata.name for i in ret.items if i.metadata.name != 'loadgenerator']
         svcs.sort()
         return svcs
 
-    # 获取所有无状态服务（除去redis，mq，mongo，db）
+    # Get stateless microservices（exclude redis，mq，mongo，db）
     def get_svcs_without_state(self):
         ret = self.apps_api.list_namespaced_deployment(self.namespace)
         def judge_state_svc(svc):
@@ -55,7 +55,7 @@ class KubernetesClient():
                 return False
         return True
 
-    # 判断服务的状态是否是avaliable
+    # Determine the status of the service (avaliable?)
     def svcs_avaliable(self, svcs):
         ret = self.apps_api.list_namespaced_deployment(self.namespace)
         items = [item for item in ret.items if item.metadata.name == 'svc']
