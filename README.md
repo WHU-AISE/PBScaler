@@ -96,3 +96,16 @@ python RandomForestClassify.py
 ```python
 python main.py
 ```
+
+
+## Citation
+```
+@misc{xie2023pbscaler,
+      title={PBScaler: A Bottleneck-aware Autoscaling Framework for Microservice-based Applications}, 
+      author={Shuaiyu Xie and Jian Wang and Bing Li and Zekun Zhang and Duantengchuan Li and Patrick C. K. H},
+      year={2023},
+      eprint={2303.14620},
+      archivePrefix={arXiv},
+      primaryClass={cs.SE}
+}
+```
