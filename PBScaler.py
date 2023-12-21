@@ -272,10 +272,10 @@ class PBScaler:
             # calculate topological potential
             sigma = 1
             potential = anomaly_score_map[node]
-            pre_nodes = ab_DG.neighbors(node)
+            pre_nodes = ab_DG.predecessors(node)
             for pre_node in pre_nodes:
                 potential += (anomaly_score_map[pre_node] * math.exp(-1 * math.pow(1/sigma, 2)))
-                for pre2_node in ab_DG.neighbors(pre_node):
+                for pre2_node in ab_DG.predecessors(pre_node):
                     if pre2_node != node:
                         potential += (anomaly_score_map[pre2_node] * math.exp(-1 * math.pow(2 / sigma, 2)))
             personal_array[node] = potential
