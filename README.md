@@ -100,12 +100,11 @@ python main.py
 
 ## Citation
 ```
-@misc{xie2023pbscaler,
-      title={PBScaler: A Bottleneck-aware Autoscaling Framework for Microservice-based Applications}, 
-      author={Shuaiyu Xie and Jian Wang and Bing Li and Zekun Zhang and Duantengchuan Li and Patrick C. K. H},
-      year={2023},
-      eprint={2303.14620},
-      archivePrefix={arXiv},
-      primaryClass={cs.SE}
+@article{xie2024pbscaler,
+  title={PBScaler: A Bottleneck-aware Autoscaling Framework for Microservice-based Applications},
+  author={Xie, Shuaiyu and Wang, Jian and Li, Bing and Zhang, Zekun and Li, Duantengchuan and Hung, Patrick CK},
+  journal={IEEE Transactions on Services Computing},
+  year={2024},
+  publisher={IEEE}
 }
 ```
