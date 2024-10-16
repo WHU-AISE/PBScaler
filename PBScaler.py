@@ -312,7 +312,7 @@ class PBScaler:
 
     def execute_task(self, actions):
         for ms in self.mss:
-            # self.k8s_util.patch_scale(ms, int(actions[ms]))
+            self.k8s_util.patch_scale(ms, int(actions[ms]))
             print('scale {} to {}'.format(ms, int(actions[ms])))
 
     def start(self):
