@@ -215,23 +215,23 @@ class PrometheusClient:
     def get_svc_metric_range(self):
         df = pd.DataFrame()
         k8s_util = KubernetesClient(self.config)
-        cpu_usage_sql = '(sum(rate(container_cpu_usage_seconds_total{namespace="%s",container!=\'POD|istio-proxy|\'}[1m])) by(pod))' % (
+        cpu_usage_sql = '(sum(rate(container_cpu_usage_seconds_total{namespace="%s",container!~\'POD|istio-proxy|\'}[1m])) by(pod))' % (
             self.namespace)
         cpu_limit_sql = '(sum(container_spec_cpu_quota{namespace="%s",container!~\'POD|istio-proxy|\'}) by(pod) /100000)' % (
             self.namespace)
         # memory usage MB
-        mem_usage_rate_sql = 'sum(rate(container_memory_usage_bytes{namespace="%s",container!=\'POD|istio-proxy|\'}[1m])) by(pod) / (1024*1024)' % (
+        mem_usage_rate_sql = 'sum(rate(container_memory_usage_bytes{namespace="%s",container!~\'POD|istio-proxy|\'}[1m])) by(pod) / (1024*1024)' % (
             self.namespace)
-        mem_usage_sql = 'sum(container_memory_usage_bytes{namespace="%s",container!=\'POD|istio-proxy|\'}) by(pod) / (1024*1024)' % (
+        mem_usage_sql = 'sum(container_memory_usage_bytes{namespace="%s",container!~\'POD|istio-proxy|\'}) by(pod) / (1024*1024)' % (
             self.namespace)
-        mem_limit_sql = 'sum(container_spec_memory_limit_bytes{namespace="%s",container_name!=\'POD|istio-proxy|\'}) by(pod) / (1024*1024)' % (
+        mem_limit_sql = 'sum(container_spec_memory_limit_bytes{namespace="%s",container_name!~\'POD|istio-proxy|\'}) by(pod) / (1024*1024)' % (
             self.namespace)
         # file IO usage MB
-        fs_usage_sql = '(sum(rate(container_fs_usage_bytes{namespace="%s",container!=\'POD|istio-proxy|\'}[1m])) by(pod)) / (1024*1024)' % (
+        fs_usage_sql = '(sum(rate(container_fs_usage_bytes{namespace="%s",container!~\'POD|istio-proxy|\'}[1m])) by(pod)) / (1024*1024)' % (
             self.namespace)
-        fs_write_sql = '(sum(rate(container_fs_write_seconds_total{namespace="%s",container!=\'POD|istio-proxy|\'}[1m])) by(pod))' % (
+        fs_write_sql = '(sum(rate(container_fs_write_seconds_total{namespace="%s",container!~\'POD|istio-proxy|\'}[1m])) by(pod))' % (
             self.namespace)
-        fs_read_sql = '(sum(rate(container_fs_read_seconds_total{namespace="%s",container!=\'POD|istio-proxy|\'}[1m])) by(pod))' % (
+        fs_read_sql = '(sum(rate(container_fs_read_seconds_total{namespace="%s",container!~\'POD|istio-proxy|\'}[1m])) by(pod))' % (
             self.namespace)
         # network KB/s
         net_receive_sql = 'sum(rate(container_network_receive_bytes_total{namespace="%s"}[1m])) by (pod) / 1024' % (
